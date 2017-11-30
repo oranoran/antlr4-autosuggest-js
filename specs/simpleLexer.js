@@ -27,6 +27,12 @@ function simpleLexer(input) {
 simpleLexer.prototype = Object.create(antlr4.Lexer.prototype);
 simpleLexer.prototype.constructor = simpleLexer;
 
+Object.defineProperty(simpleLexer.prototype, "atn", { // TODO: this is not part of the original antlr4 runtime template!
+	get : function() {
+		return atn;
+	}
+});
+
 simpleLexer.EOF = antlr4.Token.EOF;
 simpleLexer.T__0 = 1;
 simpleLexer.T__1 = 2;
