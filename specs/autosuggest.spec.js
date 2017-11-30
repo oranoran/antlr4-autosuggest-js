@@ -21,15 +21,33 @@ describe('Autosuggest', function () {
     it('should return empty', function () {
         var input = 'ABCD';
         var chars = new antlr4.InputStream(input);
-        var factory = function () {
-            var createLexer = function (input) {
+        var factory = class {
+            constructor() {}
+            createLexer(input) {
                 return new simpleLexer.simpleLexer(input);
             };
-            var createParser = function (tokenStream) {
+            createParser(tokenStream) {
                 return new simpleParser.simpleParser(tokenStream);
             };
         };
-        var suggester = new autosuggest.AutoSuggester(factory, input);
-        expect(suggester.suggest()).toBeTruthy();
+        var suggester = new autosuggest.AutoSuggester(new factory(), input);
+        expect(suggester.suggest().sort()).toEqual([]);
     });
+
+    it('should complete', function () {
+        var input = 'AB';
+        var chars = new antlr4.InputStream(input);
+        var factory = class {
+            constructor() {}
+            createLexer(input) {
+                return new simpleLexer.simpleLexer(input);
+            };
+            createParser(tokenStream) {
+                return new simpleParser.simpleParser(tokenStream);
+            };
+        };
+        var suggester = new autosuggest.AutoSuggester(new factory(), input);
+        expect(suggester.suggest().sort()).toEqual(['CD']);
+    });
+
 });
