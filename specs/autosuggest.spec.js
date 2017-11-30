@@ -27,7 +27,7 @@ describe("Autosuggest", function () {
             };
             var createParser = function (tokenStream) {
                 return new simpleParser.simpleParser(tokenStream);
-            }
+            };
         };
         var suggester = new autosuggest.AutoSuggester(factory, input);
         expect(suggester.suggest()).toBeTruthy();
