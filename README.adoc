@@ -1,0 +1,13 @@
+= JavaScript autosuggest engine for ANTLR4 grammars
+Oran Epelbaum
+:version: 0.0.1-SNAPSHOT
+:source-highlighter: pygments
+
+This is a port of antlr4-autosuggest to JavaScript.
+It is still in infancy, better go check out the Java project for now.
+
+image:https://travis-ci.org/oranoran/antlr4-autosuggest-js.svg?branch=master[link="https://travis-ci.org/oranoran/antlr4-autosuggest-js"]
+
+== Credits
+Written by Oran Epelbaum at Intigua.
+
