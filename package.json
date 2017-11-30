@@ -1,0 +1,34 @@
+{
+  "name": "antlr4-autosuggest",
+  "version": "0.0.1",
+  "description": "Autosuggest engine for ANTLR4 grammars",
+  "main": "autosuggest.js",
+  "scripts": {
+    "test": "jasmine-node specs/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oranoran/antlr4-autosuggest-js.git"
+  },
+  "keywords": [
+    "antl4",
+    "autosuggest",
+    "autocomplete",
+    "antlr",
+    "grammar",
+    "parser",
+    "lexer"
+  ],
+  "author": "Oran Epelbaum",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oranoran/antlr4-autosuggest-js/issues"
+  },
+  "homepage": "https://github.com/oranoran/antlr4-autosuggest-js#readme",
+  "devDependencies": {
+    "jasmine-node": "~1.13.1"
+  },
+  "dependencies": {
+    "antlr4": "^4.7.0"
+  }
+}
