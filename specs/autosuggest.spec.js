@@ -1,11 +1,11 @@
 var antlr4 = require('antlr4');
-var autosuggest = require("../autosuggest");
+var autosuggest = require('../autosuggest');
 var simpleParser = require('./simpleParser');
 var simpleLexer = require('./simpleLexer');
 
-describe("Test Parser", function () {
-    it("should be able to parse", function () {
-        var input = "ABCD";
+describe('Test Parser', function () {
+    it('should be able to parse', function () {
+        var input = 'ABCD';
         var chars = new antlr4.InputStream(input);
         var lexer = new simpleLexer.simpleLexer(chars);
         var tokens = new antlr4.CommonTokenStream(lexer);
@@ -17,9 +17,9 @@ describe("Test Parser", function () {
 
 });
 
-describe("Autosuggest", function () {
-    it("should return empty", function () {
-        var input = "ABCD";
+describe('Autosuggest', function () {
+    it('should return empty', function () {
+        var input = 'ABCD';
         var chars = new antlr4.InputStream(input);
         var factory = function () {
             var createLexer = function (input) {
