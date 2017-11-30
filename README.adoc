@@ -6,7 +6,7 @@ Oran Epelbaum
 This is a port of antlr4-autosuggest to JavaScript.
 It is still in infancy, better go check out the Java project for now.
 
-image:https://travis-ci.org/oranoran/antlr4-autosuggest-js.svg?branch=master[link="https://travis-ci.org/oranoran/antlr4-autosuggest-js"]
+image:https://travis-ci.org/oranoran/antlr4-autosuggest-js.svg?branch=master[link="https://travis-ci.org/oranoran/antlr4-autosuggest-js"] image:https://api.codacy.com/project/badge/Grade/b5195e72e90043f79d9c3cbf7e80bd1e["Codacy code quality", link="https://www.codacy.com/app/oranoran/antlr4-autosuggest-js?utm_source=github.com&utm_medium=referral&utm_content=oranoran/antlr4-autosuggest-js&utm_campaign=Badge_Grade"]
 
 == Credits
 Written by Oran Epelbaum at Intigua.
