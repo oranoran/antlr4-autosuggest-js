@@ -30,27 +30,27 @@ describe('Autosuggest', function () {
             constructor() { }
             createLexer(input) {
                 return new simpleLexer.simpleLexer(input);
-            };
+            }
             createParser(tokenStream) {
                 return new simpleParser.simpleParser(tokenStream);
-            };
+            }
         };
         var suggester = new autosuggest.AutoSuggester(new Factory(), input);
         expect(suggester.suggest().sort()).toEqual([]);
     });
 
     it('should complete', function () {
-        var factory = class {
+        var Factory = class {
             constructor() { }
             createLexer(input) {
                 return new simpleLexer.simpleLexer(input);
-            };
+            }
             createParser(tokenStream) {
                 return new simpleParser.simpleParser(tokenStream);
-            };
+            }
         };
         var testInput = 'AB';
-        var suggester = new autosuggest.AutoSuggester(new factory(), testInput);
+        var suggester = new autosuggest.AutoSuggester(new Factory(), testInput);
         expect(suggester.suggest().sort()).toEqual(['CD']);
     });
 

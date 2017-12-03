@@ -60,15 +60,15 @@ TokenSuggester.prototype._suggest = function (completionSoFar, state, remainingT
     } finally {
         this._visitedLexerStates.pop();
     }
-}
+};
 
 TokenSuggester.prototype._chopOffCommonStart = function (remainingText, transitionToken) {
     var charsToChopOff = Math.min(transitionToken.length, remainingText.length);
     return remainingText.substr(charsToChopOff, remainingText.length - charsToChopOff);
-}
+};
 
 TokenSuggester.prototype._getAddedTextFor = function (transition) {
     return String.fromCodePoint(transition.label);
-}
+};
 exports.TokenSuggester = TokenSuggester;
 

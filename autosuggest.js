@@ -14,6 +14,11 @@ function AutoSuggester(lexerAndParserFactory, input) {
     return this;
 }
 
+var transToStr = function (trans) {
+    return '' + trans.constructor.name + '->' + trans.target;
+};
+
+
 AutoSuggester.prototype.constructor = AutoSuggester;
 
 AutoSuggester.prototype.suggest = function () {
@@ -29,7 +34,7 @@ AutoSuggester.prototype._tokenizeInput = function () {
     debug('TOKENS FOUND IN FIRST PASS:');
     this._inputTokens.forEach((token) => { debug('' + token); });
     debug('UNTOKENIZED: ' + this._untokenizedText);
-}
+};
 
 AutoSuggester.prototype._createLexerWithUntokenizedTextDetection = function () {
     var lexer = this._createLexer();
@@ -41,26 +46,25 @@ AutoSuggester.prototype._createLexerWithUntokenizedTextDetection = function () {
     }
     lexer.addErrorListener(newErrorListener);
     return lexer;
-
-}
+};
 
 AutoSuggester.prototype._createLexer = function (lexerInput = this._input) {
     var inputStream = new antlr4.InputStream(lexerInput);
     var lexer = this._lexerAndParserFactory.createLexer(inputStream);
     return lexer;
-}
+};
 
 AutoSuggester.prototype._createParserAtn = function () {
     var tokenStream = new antlr4.CommonTokenStream(this._createLexer());
     var parser = this._lexerAndParserFactory.createParser(tokenStream);
     debug('Parser rule names: ' + parser.ruleNames.join(', '));
     this._parserAtn = parser.atn;
-}
+};
 
 AutoSuggester.prototype._runParserAtnAndCollectSuggestions = function () {
     var initialState = this._parserAtn.states[0];
     this._parseAndCollectTokenSuggestions(initialState, 0);
-}
+};
 
 AutoSuggester.prototype._parseAndCollectTokenSuggestions = function (parserState, tokenListIndex) {
     var prevIndent = this._indent;
@@ -86,33 +90,31 @@ AutoSuggester.prototype._parseAndCollectTokenSuggestions = function (parserState
     } finally {
         this._indent = prevIndent;
     }
-
-}
+};
 
 AutoSuggester.prototype._haveMoreTokens = function (index) {
     return index < this._inputTokens.length;
-}
+};
 
 AutoSuggester.prototype._handleEpsilonTransition = function (trans, tokenListIndex) {
     this._parseAndCollectTokenSuggestions(trans.target, tokenListIndex);
-}
+};
 
 AutoSuggester.prototype._handleAtomicTransition = function (trans, tokenListIndex) {
-    var nextToken = this._inputTokens[tokenListIndex];
-    var nextTokenType = this._inputTokens[tokenListIndex].type;
+    var nextToken = this._inputTokens.slice(tokenListIndex, tokenListIndex+1)[0];
+    var nextTokenType = nextToken.type;
     var nextTokenMatchesTransition = (trans.label.contains(nextTokenType));
     if (nextTokenMatchesTransition) {
         this._parseAndCollectTokenSuggestions(trans.target, tokenListIndex + 1);
     }
-}
+};
 
 AutoSuggester.prototype._suggestNextTokensForParserState = function (parserState) {
     var tokenSuggester = new TokenSuggester.TokenSuggester(this._createLexer());
     var suggestions = tokenSuggester.suggest(parserState, this._untokenizedText);
     this._parseSuggestionsAndAddValidOnes(parserState, suggestions);
     // logger.debug(indent + 'WILL SUGGEST TOKENS FOR STATE: ' + parserState);
-
-}
+};
 
 AutoSuggester.prototype._parseSuggestionsAndAddValidOnes = function (parserState, suggestions) {
     suggestions.forEach((suggestion) => {
@@ -126,7 +128,7 @@ AutoSuggester.prototype._parseSuggestionsAndAddValidOnes = function (parserState
             debug('DROPPING non-parseable suggestion: ' + suggestion);
         }
     });
-}
+};
 
 AutoSuggester.prototype._getAddedToken = function (suggestedCompletion) {
     var completedText = this._input + suggestedCompletion;
@@ -138,7 +140,7 @@ AutoSuggester.prototype._getAddedToken = function (suggestedCompletion) {
     }
     var newToken = completedTextTokens[completedTextTokens.length - 1];
     return newToken;
-}
+};
 
 AutoSuggester.prototype._isParseableWithAddedToken = function (parserState, newToken) {
     if (newToken == null) {
@@ -156,7 +158,7 @@ AutoSuggester.prototype._isParseableWithAddedToken = function (parserState, newT
                 parseable = true;
             }
         } else if (parserTransition.serializationType === 7) { //antlr4.atn.Transition.SET) {) {
-            parserSetTransition.label.forEach((transitionTokenType) => {
+            parserTransition.label.forEach((transitionTokenType) => {
                 if (transitionTokenType === newToken.type) {
                     parseable = true;
                 }
@@ -166,11 +168,7 @@ AutoSuggester.prototype._isParseableWithAddedToken = function (parserState, newT
         }
     });
     return parseable;
-}
-
-var transToStr = function (trans) {
-    return '' + trans.constructor.name + '->' + trans.target;
-}
+};
 
 
 
