@@ -4,7 +4,7 @@
   "description": "Autosuggest engine for ANTLR4 grammars",
   "main": "autosuggest.js",
   "scripts": {
-    "test": "jasmine-node specs/"
+    "test": "env \"DEBUG=*\" node ./node_modules//.bin/jasmine \"./specs/*.spec.js\""
   },
   "repository": {
     "type": "git",
@@ -27,7 +27,7 @@
   "homepage": "https://github.com/oranoran/antlr4-autosuggest-js#readme",
   "devDependencies": {
     "eslint": "^4.12.1",
-    "jasmine-node": "~1.13.1",
+    "jasmine": "^2.8.0",
     "jshint": "^2.9.5"
   },
   "dependencies": {

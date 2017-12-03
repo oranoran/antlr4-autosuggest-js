@@ -1,5 +1,5 @@
 'use strict';
-var debug = require('debug');
+var debug = require('debug')('tokensuggester');
 
 function TokenSuggester(lexer) {
     this._lexer = lexer;
