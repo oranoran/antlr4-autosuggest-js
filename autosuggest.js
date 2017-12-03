@@ -43,7 +43,7 @@ AutoSuggester.prototype._createLexerWithUntokenizedTextDetection = function () {
     var newErrorListener = Object.create(antlr4.error.ErrorListener);
     newErrorListener.syntaxError = function (recognizer, offendingSymbol, line, column, msg, e) {
         self._untokenizedText = self._input.substring(column);
-    }
+    };
     lexer.addErrorListener(newErrorListener);
     return lexer;
 };
@@ -84,7 +84,7 @@ AutoSuggester.prototype._parseAndCollectTokenSuggestions = function (parserState
                 this._handleAtomicTransition(trans, tokenListIndex);
             } else {
                 // Maybe can also get SetTransition?
-                throw new 'Unsupported parser transition: ' + toString(trans);
+                throw new 'Unsupported parser transition: ' + transToStr(trans);
             }
         });
     } finally {

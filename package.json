@@ -27,7 +27,8 @@
   "homepage": "https://github.com/oranoran/antlr4-autosuggest-js#readme",
   "devDependencies": {
     "eslint": "^4.12.1",
-    "jasmine-node": "~1.13.1"
+    "jasmine-node": "~1.13.1",
+    "jshint": "^2.9.5"
   },
   "dependencies": {
     "antlr4": "^4.7.0",
