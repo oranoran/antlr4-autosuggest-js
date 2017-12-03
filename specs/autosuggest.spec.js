@@ -3,6 +3,11 @@ var autosuggest = require('../autosuggest');
 var simpleParser = require('./simpleParser');
 var simpleLexer = require('./simpleLexer');
 
+/*
+grammar simple;
+the_field: 'AB' 'CD';
+*/
+
 describe('Test Parser', function () {
     it('should be able to parse', function () {
         var input = 'ABCD';
@@ -22,7 +27,7 @@ describe('Autosuggest', function () {
         var input = 'ABCD';
         var chars = new antlr4.InputStream(input);
         var factory = class {
-            constructor() {}
+            constructor() { }
             createLexer(input) {
                 return new simpleLexer.simpleLexer(input);
             };
@@ -35,10 +40,8 @@ describe('Autosuggest', function () {
     });
 
     it('should complete', function () {
-        var input = 'AB';
-        var chars = new antlr4.InputStream(input);
         var factory = class {
-            constructor() {}
+            constructor() { }
             createLexer(input) {
                 return new simpleLexer.simpleLexer(input);
             };
@@ -46,7 +49,8 @@ describe('Autosuggest', function () {
                 return new simpleParser.simpleParser(tokenStream);
             };
         };
-        var suggester = new autosuggest.AutoSuggester(new factory(), input);
+        var testInput = 'AB';
+        var suggester = new autosuggest.AutoSuggester(new factory(), testInput);
         expect(suggester.suggest().sort()).toEqual(['CD']);
     });
 

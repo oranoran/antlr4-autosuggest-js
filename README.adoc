@@ -3,11 +3,47 @@ Oran Epelbaum
 :version: 0.0.1-SNAPSHOT
 :source-highlighter: pygments
 
-This is a port of antlr4-autosuggest to JavaScript.
-It is still in infancy, better go check out the Java project for now.
+To get started, have a look at the unit tests.
 
 image:https://travis-ci.org/oranoran/antlr4-autosuggest-js.svg?branch=master[link="https://travis-ci.org/oranoran/antlr4-autosuggest-js"] image:https://api.codacy.com/project/badge/Grade/b5195e72e90043f79d9c3cbf7e80bd1e["Codacy code quality", link="https://www.codacy.com/app/oranoran/antlr4-autosuggest-js?utm_source=github.com&utm_medium=referral&utm_content=oranoran/antlr4-autosuggest-js&utm_campaign=Badge_Grade"]
 
+
+== Getting the antlr-autosuggest JavaScript Module
+
+For now, you need to download and build the library from source code.
+We intend to publish into NPM soon.
+
+== Examples
+
+A - Generating suggestions for a generated grammar
+
+```JavaScript
+var factory = class {
+    constructor() {}
+    createLexer(input) {
+        return new myLexer.myLexer(input);
+    };
+    createParser(tokenStream) {
+        return new myParser.myParser(tokenStream);
+    };
+};
+var suggester = new autosuggest.AutoSuggester(new factory(), input);
+var suggestions = suggester.suggest();
+```
+
+== How It Works
+
+See explanation in the https://github.com/oranoran/antlr4-autosuggest/[Java project]
+
+== Building
+. Clone the antlr-autosuggest-js repository.
+. Install Node and NPM (tested with 8)
+. Run the command `npm test`.
+
 == Credits
 Written by Oran Epelbaum at Intigua.
+When starting to write this, studied the following blog posts (though much has changed since):
 
+- https://blog.rapid7.com/2015/06/29/how-to-implement-antlr4-autocomplete/[RAPID7]: How to Implement ANTLR4 Autocomplete
+- https://tomassetti.me/autocompletion-editor-antlr/[TOMASETTI]: Building autocompletion for an editor based on ANTLR by Federico Tomassetti
+________________________________________________________________________________
