@@ -1,6 +1,7 @@
 'use strict';
 var antlr4 = require('antlr4');
 var TokenSuggester = require('./TokenSuggester');
+var debug = require('debug');
 
 function AutoSuggester(lexerAndParserFactory, input) {
     this._lexerAndParserFactory = lexerAndParserFactory;
@@ -25,9 +26,9 @@ AutoSuggester.prototype.suggest = function () {
 AutoSuggester.prototype._tokenizeInput = function () {
     var lexer = this._createLexerWithUntokenizedTextDetection();
     this._inputTokens = lexer.getAllTokens(); // side effect: also fills this.untokenizedText
-    console.log('TOKENS FOUND IN FIRST PASS:');
-    this._inputTokens.forEach((token) => { console.log('' + token); });
-    console.log('UNTOKENIZED: ' + this._untokenizedText);
+    debug('TOKENS FOUND IN FIRST PASS:');
+    this._inputTokens.forEach((token) => { debug('' + token); });
+    debug('UNTOKENIZED: ' + this._untokenizedText);
 }
 
 AutoSuggester.prototype._createLexerWithUntokenizedTextDetection = function () {
@@ -52,7 +53,7 @@ AutoSuggester.prototype._createLexer = function (lexerInput = this._input) {
 AutoSuggester.prototype._createParserAtn = function () {
     var tokenStream = new antlr4.CommonTokenStream(this._createLexer());
     var parser = this._lexerAndParserFactory.createParser(tokenStream);
-    console.log('Parser rule names: ' + parser.ruleNames.join(', '));
+    debug('Parser rule names: ' + parser.ruleNames.join(', '));
     this._parserAtn = parser.atn;
 }
 
@@ -65,8 +66,8 @@ AutoSuggester.prototype._parseAndCollectTokenSuggestions = function (parserState
     var prevIndent = this._indent;
     this._indent += '  ';
     try {
-        console.log(this._indent + 'State: ' + parserState + ' (type: ' + parserState.constructor.name + ')');
-        // console.log(indent + 'State available transitions: ' + transitionsStr(parserState));
+        debug(this._indent + 'State: ' + parserState + ' (type: ' + parserState.constructor.name + ')');
+        // debug(indent + 'State available transitions: ' + transitionsStr(parserState));
 
         if (!this._haveMoreTokens(tokenListIndex)) { // stop condition for recursion
             this._suggestNextTokensForParserState(parserState);
@@ -122,7 +123,7 @@ AutoSuggester.prototype._parseSuggestionsAndAddValidOnes = function (parserState
                 this._collectedSuggestions.push(suggestion);
             }
         } else {
-            console.log('DROPPING non-parseable suggestion: ' + suggestion);
+            debug('DROPPING non-parseable suggestion: ' + suggestion);
         }
     });
 }

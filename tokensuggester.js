@@ -1,4 +1,5 @@
 'use strict';
+var debug = require('debug');
 
 function TokenSuggester(lexer) {
     this._lexer = lexer;
@@ -29,7 +30,7 @@ TokenSuggester.prototype.suggest = function (parserState, remainingText) {
 TokenSuggester.prototype._toLexerState = function (parserState) {
     var lexerState = this._lexer.atn.states.find((x) => { return (x.stateNumber === parserState.stateNumber); });
     if (lexerState == null) {
-        console.log('No lexer state matches parser state ' + parserState + ', not suggesting completions.');
+        debug('No lexer state matches parser state ' + parserState + ', not suggesting completions.');
     }
     return lexerState;
 };

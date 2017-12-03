@@ -30,6 +30,7 @@
     "jasmine-node": "~1.13.1"
   },
   "dependencies": {
-    "antlr4": "^4.7.0"
+    "antlr4": "^4.7.0",
+    "debug": "^3.1.0"
   }
 }
