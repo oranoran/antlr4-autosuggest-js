@@ -1,6 +1,6 @@
 'use strict';
 var antlr4 = require('antlr4');
-var TokenSuggester = require('./TokenSuggester');
+var TokenSuggester = require('./tokensuggester');
 var debug = require('debug')('autosuggest');
 
 function AutoSuggester(lexerAndParserFactory, input) {
