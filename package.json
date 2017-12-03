@@ -4,7 +4,7 @@
   "description": "Autosuggest engine for ANTLR4 grammars",
   "main": "autosuggest.js",
   "scripts": {
-    "test": "env \"DEBUG=*\" node ./node_modules//.bin/jasmine"
+    "test": "jasmine"
   },
   "repository": {
     "type": "git",
