@@ -25,9 +25,9 @@ AutoSuggester.prototype.suggest = function () {
 AutoSuggester.prototype._tokenizeInput = function () {
     var lexer = this._createLexerWithUntokenizedTextDetection();
     this._inputTokens = lexer.getAllTokens(); // side effect: also fills this.untokenizedText
-    console.log("TOKENS FOUND IN FIRST PASS:");
-    this._inputTokens.forEach(token => { console.log('' + token); });
-    console.log("UNTOKENIZED: " + this._untokenizedText);
+    console.log('TOKENS FOUND IN FIRST PASS:');
+    this._inputTokens.forEach((token) => { console.log('' + token); });
+    console.log('UNTOKENIZED: ' + this._untokenizedText);
 }
 
 AutoSuggester.prototype._createLexerWithUntokenizedTextDetection = function () {
@@ -65,14 +65,14 @@ AutoSuggester.prototype._parseAndCollectTokenSuggestions = function (parserState
     var prevIndent = this._indent;
     this._indent += '  ';
     try {
-        console.log(this._indent + "State: " + parserState + " (type: " + parserState.constructor.name + ")");
-        // console.log(indent + "State available transitions: " + transitionsStr(parserState));
+        console.log(this._indent + 'State: ' + parserState + ' (type: ' + parserState.constructor.name + ')');
+        // console.log(indent + 'State available transitions: ' + transitionsStr(parserState));
 
         if (!this._haveMoreTokens(tokenListIndex)) { // stop condition for recursion
             this._suggestNextTokensForParserState(parserState);
             return;
         }
-        parserState.transitions.forEach(trans => {
+        parserState.transitions.forEach((trans) => {
             if (trans.isEpsilon) {
                 this._handleEpsilonTransition(trans, tokenListIndex);
             } else if (trans.serializationType === 5) { //antlr4.atn.Transition.ATOM) {
@@ -109,12 +109,12 @@ AutoSuggester.prototype._suggestNextTokensForParserState = function (parserState
     var tokenSuggester = new TokenSuggester.TokenSuggester(this._createLexer());
     var suggestions = tokenSuggester.suggest(parserState, this._untokenizedText);
     this._parseSuggestionsAndAddValidOnes(parserState, suggestions);
-    // logger.debug(indent + "WILL SUGGEST TOKENS FOR STATE: " + parserState);
+    // logger.debug(indent + 'WILL SUGGEST TOKENS FOR STATE: ' + parserState);
 
 }
 
 AutoSuggester.prototype._parseSuggestionsAndAddValidOnes = function (parserState, suggestions) {
-    suggestions.forEach(suggestion => {
+    suggestions.forEach((suggestion) => {
         var addedToken = this._getAddedToken(suggestion);
         if (this._isParseableWithAddedToken(parserState, addedToken)) {
 
@@ -122,7 +122,7 @@ AutoSuggester.prototype._parseSuggestionsAndAddValidOnes = function (parserState
                 this._collectedSuggestions.push(suggestion);
             }
         } else {
-            console.log("DROPPING non-parseable suggestion: " + suggestion);
+            console.log('DROPPING non-parseable suggestion: ' + suggestion);
         }
     });
 }
@@ -144,7 +144,7 @@ AutoSuggester.prototype._isParseableWithAddedToken = function (parserState, newT
         return false;
     }
     var parseable = false;
-    parserState.transitions.forEach(parserTransition => {
+    parserState.transitions.forEach((parserTransition) => {
         if (parserTransition.isEpsilon) { // Recurse through any epsilon transitions
             if (this._isParseableWithAddedToken(parserTransition.target, newToken)) {
                 parseable = true;
@@ -155,7 +155,7 @@ AutoSuggester.prototype._isParseableWithAddedToken = function (parserState, newT
                 parseable = true;
             }
         } else if (parserTransition.serializationType === 7) { //antlr4.atn.Transition.SET) {) {
-            parserSetTransition.label.forEach(transitionTokenType => {
+            parserSetTransition.label.forEach((transitionTokenType) => {
                 if (transitionTokenType === newToken.type) {
                     parseable = true;
                 }
