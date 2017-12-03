@@ -26,7 +26,7 @@ describe('Autosuggest', function () {
     it('should return empty', function () {
         var input = 'ABCD';
         var chars = new antlr4.InputStream(input);
-        var factory = class {
+        var Factory = class {
             constructor() { }
             createLexer(input) {
                 return new simpleLexer.simpleLexer(input);
@@ -35,7 +35,7 @@ describe('Autosuggest', function () {
                 return new simpleParser.simpleParser(tokenStream);
             };
         };
-        var suggester = new autosuggest.AutoSuggester(new factory(), input);
+        var suggester = new autosuggest.AutoSuggester(new Factory(), input);
         expect(suggester.suggest().sort()).toEqual([]);
     });
 

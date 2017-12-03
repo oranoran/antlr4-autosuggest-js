@@ -27,7 +27,7 @@ TokenSuggester.prototype.suggest = function (parserState, remainingText) {
 };
 
 TokenSuggester.prototype._toLexerState = function (parserState) {
-    var lexerState = this._lexer.atn.states.find(x => { return (x.stateNumber === parserState.stateNumber); });
+    var lexerState = this._lexer.atn.states.find((x) => { return (x.stateNumber === parserState.stateNumber); });
     if (lexerState == null) {
         console.log('No lexer state matches parser state ' + parserState + ', not suggesting completions.');
     }
@@ -57,7 +57,7 @@ TokenSuggester.prototype._suggest = function (completionSoFar, state, remainingT
             }
         });
     } finally {
-        this._visitedLexerStates.pop()
+        this._visitedLexerStates.pop();
     }
 }
 

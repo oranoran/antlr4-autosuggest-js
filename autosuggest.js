@@ -151,7 +151,7 @@ AutoSuggester.prototype._isParseableWithAddedToken = function (parserState, newT
             }
         } else if (parserTransition.serializationType === 5) { //antlr4.atn.Transition.ATOM) {) {
             var transitionTokenType = parserTransition.label;
-            if (transitionTokenType == newToken.type) {
+            if (transitionTokenType.first() === newToken.type) {
                 parseable = true;
             }
         } else if (parserTransition.serializationType === 7) { //antlr4.atn.Transition.SET) {) {
