@@ -32,7 +32,7 @@ AutoSuggester.prototype._tokenizeInput = function () {
     var lexer = this._createLexerWithUntokenizedTextDetection();
     this._inputTokens = lexer.getAllTokens(); // side effect: also fills this.untokenizedText
     debug('TOKENS FOUND IN FIRST PASS:');
-    this._inputTokens.forEach(function (token) { debug('' + token); });
+    this._inputTokens.forEach((token) => { debug('' + token); });
     debug('UNTOKENIZED: ' + this._untokenizedText);
 };
 
@@ -81,7 +81,7 @@ AutoSuggester.prototype._parseAndCollectTokenSuggestions = function (parserState
             this._suggestNextTokensForParserState(parserState);
             return;
         }
-        parserState.transitions.forEach(function (trans) {
+        parserState.transitions.forEach((trans) => {
             if (trans.isEpsilon) {
                 this._handleEpsilonTransition(trans, tokenListIndex);
             } else if (trans.serializationType === 5) { //antlr4.atn.Transition.ATOM) {
@@ -121,7 +121,7 @@ AutoSuggester.prototype._suggestNextTokensForParserState = function (parserState
 };
 
 AutoSuggester.prototype._parseSuggestionsAndAddValidOnes = function (parserState, suggestions) {
-    suggestions.forEach(function (suggestion) {
+    suggestions.forEach((suggestion) => {
         var addedToken = this._getAddedToken(suggestion);
         if (this._isParseableWithAddedToken(parserState, addedToken)) {
 
@@ -151,7 +151,7 @@ AutoSuggester.prototype._isParseableWithAddedToken = function (parserState, newT
         return false;
     }
     var parseable = false;
-    parserState.transitions.forEach(function (parserTransition) {
+    parserState.transitions.forEach((parserTransition) => {
         if (parserTransition.isEpsilon) { // Recurse through any epsilon transitions
             if (this._isParseableWithAddedToken(parserTransition.target, newToken)) {
                 parseable = true;
@@ -162,7 +162,7 @@ AutoSuggester.prototype._isParseableWithAddedToken = function (parserState, newT
                 parseable = true;
             }
         } else if (parserTransition.serializationType === 7) { //antlr4.atn.Transition.SET) {) {
-            parserTransition.label.forEach(function (transitionTokenType) {
+            parserTransition.label.forEach((transitionTokenType) => {
                 if (transitionTokenType === newToken.type) {
                     parseable = true;
                 }

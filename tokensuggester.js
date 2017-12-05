@@ -15,7 +15,7 @@ TokenSuggester.prototype.suggest = function (parserState, remainingText) {
     if (lexerState == null) {
         return this._suggestions;
     } else if (lexerState.transitions.length === 0) {
-        parserState.transitions.forEach(function (transition) {
+        parserState.transitions.forEach((transition) => {
             if (transition.serializationType === 5) { // AtomTransition
                 lexerState = this._toLexerState(transition.target);
                 this._suggest('', lexerState, remainingText);
@@ -28,7 +28,7 @@ TokenSuggester.prototype.suggest = function (parserState, remainingText) {
 };
 
 TokenSuggester.prototype._toLexerState = function (parserState) {
-    var lexerState = this._lexer.atn.states.find(function (x) { return (x.stateNumber === parserState.stateNumber); });
+    var lexerState = this._lexer.atn.states.find((x) => { return (x.stateNumber === parserState.stateNumber); });
     if (lexerState == null) {
         debug('No lexer state matches parser state ' + parserState + ', not suggesting completions.');
     }
@@ -45,7 +45,7 @@ TokenSuggester.prototype._suggest = function (completionSoFar, state, remainingT
             this._suggestions.push(completionSoFar);
             return;
         }
-        state.transitions.forEach(function (trans) {
+        state.transitions.forEach((trans) => {
             if (trans.isEpsilon) {
                 this._suggest(completionSoFar, trans.target, remainingText);
             } else if (trans.serializationType === 5) { // AtomTransition

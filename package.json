@@ -27,6 +27,9 @@
   },
   "homepage": "https://github.com/oranoran/antlr4-autosuggest-js#readme",
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
     "eslint": "^4.12.1",
     "jasmine": "^2.8.0",
     "jshint": "^2.9.5",
