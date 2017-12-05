@@ -1,5 +1,6 @@
 var antlr4 = require('antlr4');
 var autosuggest = require('../autosuggest');
+var grammarFactories = require('./grammarFactories');
 var simpleParser = require('./simpleParser');
 var simpleLexer = require('./simpleLexer');
 
@@ -8,6 +9,7 @@ var simpleLexer = require('./simpleLexer');
 grammar simple;
 the_field: 'AB' 'CD';
 */
+
 
 describe('Test Parser', function () {
     it('should be able to parse', function () {
@@ -23,36 +25,32 @@ describe('Test Parser', function () {
 
 });
 
+
 describe('Autosuggest', function () {
+
+    var factory;
+    var suggester;
+
+    var givenGrammar = function (name) {
+        factory = grammarFactories.grammarFactories[name];
+    };
+    var whenInput = function (input) {
+        suggester = new autosuggest.AutoSuggester(factory, input);
+    };
+    var thenExpect = function (expectedSuggestions) {
+        expect(suggester.suggest().sort()).toEqual(expectedSuggestions.sort());
+    };
+
     it('should return empty', function () {
-        var input = 'ABCD';
-        var chars = new antlr4.InputStream(input);
-        var Factory = class {
-            constructor() { }
-            createLexer(input) {
-                return new simpleLexer.simpleLexer(input);
-            }
-            createParser(tokenStream) {
-                return new simpleParser.simpleParser(tokenStream);
-            }
-        };
-        var suggester = new autosuggest.AutoSuggester(new Factory(), input);
-        expect(suggester.suggest().sort()).toEqual([]);
+        givenGrammar("simple");
+        whenInput('ABCD');
+        thenExpect([]);
     });
 
     it('should complete', function () {
-        var Factory = class {
-            constructor() { }
-            createLexer(input) {
-                return new simpleLexer.simpleLexer(input);
-            }
-            createParser(tokenStream) {
-                return new simpleParser.simpleParser(tokenStream);
-            }
-        };
-        var testInput = 'AB';
-        var suggester = new autosuggest.AutoSuggester(new Factory(), testInput);
-        expect(suggester.suggest().sort()).toEqual(['CD']);
+        givenGrammar("simple");
+        whenInput('AB');
+        thenExpect(['CD']);
     });
 
 });
