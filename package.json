@@ -1,6 +1,6 @@
 {
   "name": "antlr4-autosuggest",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Autosuggest engine for ANTLR4 grammars",
   "main": "antlr4-autosuggest.js",
   "scripts": {
