@@ -5,7 +5,7 @@
   "main": "antlr4-autosuggest.js",
   "scripts": {
     "test": "DEBUG=\"*\" jasmine",
-    "build": "webpack"
+    "build": "webpack && cp README.md LICENSE package.json dist/"
   },
   "repository": {
     "type": "git",
