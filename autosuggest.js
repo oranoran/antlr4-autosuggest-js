@@ -174,4 +174,5 @@ AutoSuggester.prototype._isParseableWithAddedToken = function (parserState, newT
     return parseable;
 };
 
-exports.AutoSuggester = AutoSuggester;
+module.exports.AutoSuggester = AutoSuggester;
+
