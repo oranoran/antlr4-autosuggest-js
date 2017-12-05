@@ -1,6 +1,6 @@
 {
   "name": "antlr4-autosuggest",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Autosuggest engine for ANTLR4 grammars",
   "main": "autosuggest.js",
   "scripts": {
@@ -36,5 +36,9 @@
   "dependencies": {
     "antlr4": "^4.7.0",
     "debug": "^3.1.0"
-  }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
 }
