@@ -4,7 +4,8 @@
   "description": "Autosuggest engine for ANTLR4 grammars",
   "main": "autosuggest.js",
   "scripts": {
-    "test": "DEBUG=\"*\" jasmine"
+    "test": "DEBUG=\"*\" jasmine",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -28,7 +29,9 @@
   "devDependencies": {
     "eslint": "^4.12.1",
     "jasmine": "^2.8.0",
-    "jshint": "^2.9.5"
+    "jshint": "^2.9.5",
+    "webpack": "^3.10.0",
+    "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
     "antlr4": "^4.7.0",

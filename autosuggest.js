@@ -32,12 +32,12 @@ AutoSuggester.prototype._tokenizeInput = function () {
     var lexer = this._createLexerWithUntokenizedTextDetection();
     this._inputTokens = lexer.getAllTokens(); // side effect: also fills this.untokenizedText
     debug('TOKENS FOUND IN FIRST PASS:');
-    this._inputTokens.forEach((token) => { debug('' + token); });
+    this._inputTokens.forEach(function (token) { debug('' + token); });
     debug('UNTOKENIZED: ' + this._untokenizedText);
 };
 
 AutoSuggester.prototype._createLexerWithUntokenizedTextDetection = function () {
-    var lexer = this._createLexer();
+    var lexer = this._createDefaultLexer();
     lexer.removeErrorListeners();
     var self = this;
     var newErrorListener = Object.create(antlr4.error.ErrorListener);
@@ -48,14 +48,18 @@ AutoSuggester.prototype._createLexerWithUntokenizedTextDetection = function () {
     return lexer;
 };
 
-AutoSuggester.prototype._createLexer = function (lexerInput = this._input) {
+AutoSuggester.prototype._createDefaultLexer = function () {
+    return this._createLexer(this._input);
+}
+
+AutoSuggester.prototype._createLexer = function (lexerInput) {
     var inputStream = new antlr4.InputStream(lexerInput);
     var lexer = this._lexerAndParserFactory.createLexer(inputStream);
     return lexer;
 };
 
 AutoSuggester.prototype._createParserAtn = function () {
-    var tokenStream = new antlr4.CommonTokenStream(this._createLexer());
+    var tokenStream = new antlr4.CommonTokenStream(this._createDefaultLexer());
     var parser = this._lexerAndParserFactory.createParser(tokenStream);
     debug('Parser rule names: ' + parser.ruleNames.join(', '));
     this._parserAtn = parser.atn;
@@ -77,7 +81,7 @@ AutoSuggester.prototype._parseAndCollectTokenSuggestions = function (parserState
             this._suggestNextTokensForParserState(parserState);
             return;
         }
-        parserState.transitions.forEach((trans) => {
+        parserState.transitions.forEach(function (trans) {
             if (trans.isEpsilon) {
                 this._handleEpsilonTransition(trans, tokenListIndex);
             } else if (trans.serializationType === 5) { //antlr4.atn.Transition.ATOM) {
@@ -101,7 +105,7 @@ AutoSuggester.prototype._handleEpsilonTransition = function (trans, tokenListInd
 };
 
 AutoSuggester.prototype._handleAtomicTransition = function (trans, tokenListIndex) {
-    var nextToken = this._inputTokens.slice(tokenListIndex, tokenListIndex+1)[0];
+    var nextToken = this._inputTokens.slice(tokenListIndex, tokenListIndex + 1)[0];
     var nextTokenType = nextToken.type;
     var nextTokenMatchesTransition = (trans.label.contains(nextTokenType));
     if (nextTokenMatchesTransition) {
@@ -110,14 +114,14 @@ AutoSuggester.prototype._handleAtomicTransition = function (trans, tokenListInde
 };
 
 AutoSuggester.prototype._suggestNextTokensForParserState = function (parserState) {
-    var tokenSuggester = new TokenSuggester.TokenSuggester(this._createLexer());
+    var tokenSuggester = new TokenSuggester.TokenSuggester(this._createDefaultLexer());
     var suggestions = tokenSuggester.suggest(parserState, this._untokenizedText);
     this._parseSuggestionsAndAddValidOnes(parserState, suggestions);
     // logger.debug(indent + 'WILL SUGGEST TOKENS FOR STATE: ' + parserState);
 };
 
 AutoSuggester.prototype._parseSuggestionsAndAddValidOnes = function (parserState, suggestions) {
-    suggestions.forEach((suggestion) => {
+    suggestions.forEach(function (suggestion) {
         var addedToken = this._getAddedToken(suggestion);
         if (this._isParseableWithAddedToken(parserState, addedToken)) {
 
@@ -147,7 +151,7 @@ AutoSuggester.prototype._isParseableWithAddedToken = function (parserState, newT
         return false;
     }
     var parseable = false;
-    parserState.transitions.forEach((parserTransition) => {
+    parserState.transitions.forEach(function (parserTransition) {
         if (parserTransition.isEpsilon) { // Recurse through any epsilon transitions
             if (this._isParseableWithAddedToken(parserTransition.target, newToken)) {
                 parseable = true;
@@ -158,7 +162,7 @@ AutoSuggester.prototype._isParseableWithAddedToken = function (parserState, newT
                 parseable = true;
             }
         } else if (parserTransition.serializationType === 7) { //antlr4.atn.Transition.SET) {) {
-            parserTransition.label.forEach((transitionTokenType) => {
+            parserTransition.label.forEach(function (transitionTokenType) {
                 if (transitionTokenType === newToken.type) {
                     parseable = true;
                 }
@@ -169,7 +173,5 @@ AutoSuggester.prototype._isParseableWithAddedToken = function (parserState, newT
     });
     return parseable;
 };
-
-
 
 exports.AutoSuggester = AutoSuggester;
