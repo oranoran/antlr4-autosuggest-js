@@ -6,7 +6,9 @@ module.exports = {
   entry: './autosuggest.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'antlr4-autosuggest.js'
+    filename: 'antlr4-autosuggest.js',
+    libraryTarget: "var",
+    library: "Antlr4Autosuggest"
   },
   node: {
     fs: 'empty'
