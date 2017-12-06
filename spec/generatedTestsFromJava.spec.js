@@ -1,5 +1,4 @@
 // Generated Wed Dec  6 18:23:15 2017 by make_js.py in antlr4-autosuggest project.
-var antlr4 = require('antlr4');
 var autosuggest = require('../autosuggest');
 var r__Q_AB_Q__Q_CD_Q_Lexer = require('./testGrammars/r__Q_AB_Q__Q_CD_Q_Lexer');
 var r__Q_AB_Q__Q_CD_Q_Parser = require('./testGrammars/r__Q_AB_Q__Q_CD_Q_Parser');
