@@ -4,7 +4,7 @@ var TokenSuggester = require('./tokensuggester');
 var debug = require('debug')('autosuggest');
 var constants = require('./antlr4Constants');
 
-function AutoSuggester(lexerAndParserFactory, input) {
+function AutoSuggestionsGenerator(lexerAndParserFactory, input) {
     this._lexerAndParserFactory = lexerAndParserFactory;
     this._input = input;
     this._inputTokens = [];
@@ -20,16 +20,16 @@ var transToStr = function (trans) {
 };
 
 
-AutoSuggester.prototype.constructor = AutoSuggester;
+AutoSuggestionsGenerator.prototype.constructor = AutoSuggestionsGenerator;
 
-AutoSuggester.prototype.suggest = function () {
+AutoSuggestionsGenerator.prototype.suggest = function () {
     this._tokenizeInput();
     this._createParserAtn();
     this._runParserAtnAndCollectSuggestions();
     return this._collectedSuggestions;
 };
 
-AutoSuggester.prototype._tokenizeInput = function () {
+AutoSuggestionsGenerator.prototype._tokenizeInput = function () {
     var lexer = this._createLexerWithUntokenizedTextDetection();
     this._inputTokens = lexer.getAllTokens(); // side effect: also fills this.untokenizedText
     debug('TOKENS FOUND IN FIRST PASS:');
@@ -37,7 +37,7 @@ AutoSuggester.prototype._tokenizeInput = function () {
     debug('UNTOKENIZED: ' + this._untokenizedText);
 };
 
-AutoSuggester.prototype._createLexerWithUntokenizedTextDetection = function () {
+AutoSuggestionsGenerator.prototype._createLexerWithUntokenizedTextDetection = function () {
     var lexer = this._createDefaultLexer();
     lexer.removeErrorListeners();
     var self = this;
@@ -49,29 +49,29 @@ AutoSuggester.prototype._createLexerWithUntokenizedTextDetection = function () {
     return lexer;
 };
 
-AutoSuggester.prototype._createDefaultLexer = function () {
+AutoSuggestionsGenerator.prototype._createDefaultLexer = function () {
     return this._createLexer(this._input);
 };
 
-AutoSuggester.prototype._createLexer = function (lexerInput) {
+AutoSuggestionsGenerator.prototype._createLexer = function (lexerInput) {
     var inputStream = new antlr4.InputStream(lexerInput);
     var lexer = this._lexerAndParserFactory.createLexer(inputStream);
     return lexer;
 };
 
-AutoSuggester.prototype._createParserAtn = function () {
+AutoSuggestionsGenerator.prototype._createParserAtn = function () {
     var tokenStream = new antlr4.CommonTokenStream(this._createDefaultLexer());
     var parser = this._lexerAndParserFactory.createParser(tokenStream);
     debug('Parser rule names: ' + parser.ruleNames.join(', '));
     this._parserAtn = parser.atn;
 };
 
-AutoSuggester.prototype._runParserAtnAndCollectSuggestions = function () {
+AutoSuggestionsGenerator.prototype._runParserAtnAndCollectSuggestions = function () {
     var initialState = this._parserAtn.states[0];
     this._parseAndCollectTokenSuggestions(initialState, 0);
 };
 
-AutoSuggester.prototype._parseAndCollectTokenSuggestions = function (parserState, tokenListIndex) {
+AutoSuggestionsGenerator.prototype._parseAndCollectTokenSuggestions = function (parserState, tokenListIndex) {
     var prevIndent = this._indent;
     this._indent += '  ';
     try {
@@ -97,15 +97,15 @@ AutoSuggester.prototype._parseAndCollectTokenSuggestions = function (parserState
     }
 };
 
-AutoSuggester.prototype._haveMoreTokens = function (index) {
+AutoSuggestionsGenerator.prototype._haveMoreTokens = function (index) {
     return index < this._inputTokens.length;
 };
 
-AutoSuggester.prototype._handleEpsilonTransition = function (trans, tokenListIndex) {
+AutoSuggestionsGenerator.prototype._handleEpsilonTransition = function (trans, tokenListIndex) {
     this._parseAndCollectTokenSuggestions(trans.target, tokenListIndex);
 };
 
-AutoSuggester.prototype._handleAtomicTransition = function (trans, tokenListIndex) {
+AutoSuggestionsGenerator.prototype._handleAtomicTransition = function (trans, tokenListIndex) {
     var nextToken = this._inputTokens.slice(tokenListIndex, tokenListIndex + 1)[0];
     var nextTokenType = nextToken.type;
     var nextTokenMatchesTransition = (trans.label.contains(nextTokenType));
@@ -114,14 +114,14 @@ AutoSuggester.prototype._handleAtomicTransition = function (trans, tokenListInde
     }
 };
 
-AutoSuggester.prototype._suggestNextTokensForParserState = function (parserState) {
+AutoSuggestionsGenerator.prototype._suggestNextTokensForParserState = function (parserState) {
     var tokenSuggester = new TokenSuggester.TokenSuggester(this._createDefaultLexer());
     var suggestions = tokenSuggester.suggest(parserState, this._untokenizedText);
     this._parseSuggestionsAndAddValidOnes(parserState, suggestions);
     // logger.debug(indent + 'WILL SUGGEST TOKENS FOR STATE: ' + parserState);
 };
 
-AutoSuggester.prototype._parseSuggestionsAndAddValidOnes = function (parserState, suggestions) {
+AutoSuggestionsGenerator.prototype._parseSuggestionsAndAddValidOnes = function (parserState, suggestions) {
     suggestions.forEach((suggestion) => {
         var addedToken = this._getAddedToken(suggestion);
         if (this._isParseableWithAddedToken(parserState, addedToken)) {
@@ -135,7 +135,7 @@ AutoSuggester.prototype._parseSuggestionsAndAddValidOnes = function (parserState
     });
 };
 
-AutoSuggester.prototype._getAddedToken = function (suggestedCompletion) {
+AutoSuggestionsGenerator.prototype._getAddedToken = function (suggestedCompletion) {
     var completedText = this._input + suggestedCompletion;
     var completedTextLexer = this._createLexer(completedText);
     completedTextLexer.removeErrorListeners();
@@ -147,7 +147,7 @@ AutoSuggester.prototype._getAddedToken = function (suggestedCompletion) {
     return newToken;
 };
 
-AutoSuggester.prototype._isParseableWithAddedToken = function (parserState, newToken) {
+AutoSuggestionsGenerator.prototype._isParseableWithAddedToken = function (parserState, newToken) {
     if (newToken == null) {
         return false;
     }
@@ -178,25 +178,27 @@ AutoSuggester.prototype._isParseableWithAddedToken = function (parserState, newT
 };
 
 
-function GrammarFactory(lexerCtr, parserCtr) {
+function AutoSuggester(lexerCtr, parserCtr) {
     this._lexerCtr = lexerCtr;
     this._parserCtr = parserCtr;
     return this;
 }
 
-GrammarFactory.prototype.constructor = GrammarFactory;
+AutoSuggester.prototype.constructor = AutoSuggester;
 
-GrammarFactory.prototype.createLexer = function (input) {
+AutoSuggester.prototype.createLexer = function (input) {
     return new this._lexerCtr(input);
 };
-GrammarFactory.prototype.createParser = function (tokenStream) {
+AutoSuggester.prototype.createParser = function (tokenStream) {
     return new this._parserCtr(tokenStream);
 };
 
-var suggest = function(factory, inputText) {
-    return new AutoSuggester(factory, inputText).suggest();
+AutoSuggester.prototype.autosuggest = function(inputText) {
+    return new AutoSuggestionsGenerator(this, inputText).suggest();
 }
 
-module.exports.AutoSuggester = AutoSuggester;
-module.exports.GrammarFactory = GrammarFactory;
-module.exports.suggest = suggest;
+var autosuggester = function(lexerCtr, parserCtr) {
+    return new AutoSuggester(lexerCtr, parserCtr);
+};
+
+module.exports.autosuggester = autosuggester;
