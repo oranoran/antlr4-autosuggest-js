@@ -2,6 +2,7 @@
 var antlr4 = require('antlr4');
 var TokenSuggester = require('./tokensuggester');
 var debug = require('debug')('autosuggest');
+var constants = require('./antlr4Constants');
 
 function AutoSuggester(lexerAndParserFactory, input) {
     this._lexerAndParserFactory = lexerAndParserFactory;
@@ -50,7 +51,7 @@ AutoSuggester.prototype._createLexerWithUntokenizedTextDetection = function () {
 
 AutoSuggester.prototype._createDefaultLexer = function () {
     return this._createLexer(this._input);
-}
+};
 
 AutoSuggester.prototype._createLexer = function (lexerInput) {
     var inputStream = new antlr4.InputStream(lexerInput);
@@ -84,7 +85,7 @@ AutoSuggester.prototype._parseAndCollectTokenSuggestions = function (parserState
         parserState.transitions.forEach((trans) => {
             if (trans.isEpsilon) {
                 this._handleEpsilonTransition(trans, tokenListIndex);
-            } else if (trans.serializationType === 5) { //antlr4.atn.Transition.ATOM) {
+            } else if (trans.serializationType === constants.ATOM_TRANSITION) {
                 this._handleAtomicTransition(trans, tokenListIndex);
             } else {
                 // Maybe can also get SetTransition?
@@ -156,12 +157,12 @@ AutoSuggester.prototype._isParseableWithAddedToken = function (parserState, newT
             if (this._isParseableWithAddedToken(parserTransition.target, newToken)) {
                 parseable = true;
             }
-        } else if (parserTransition.serializationType === 5) { //antlr4.atn.Transition.ATOM) {) {
+        } else if (parserTransition.serializationType === constants.ATOM_TRANSITION) {
             var transitionTokenType = parserTransition.label;
             if (transitionTokenType.first() === newToken.type) {
                 parseable = true;
             }
-        } else if (parserTransition.serializationType === 7) { //antlr4.atn.Transition.SET) {) {
+        } else if (parserTransition.serializationType === constants.SET_TRANSITION) {
             parserTransition.label.intervals.forEach((interval) => {
                 for (var transitionTokenType = interval.start; transitionTokenType <= interval.stop; ++transitionTokenType) {
                     if (transitionTokenType === newToken.type) {

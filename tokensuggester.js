@@ -1,5 +1,6 @@
 'use strict';
 var debug = require('debug')('tokensuggester');
+var constants = require('./antlr4Constants');
 
 function TokenSuggester(lexer) {
     this._lexer = lexer;
@@ -51,12 +52,12 @@ TokenSuggester.prototype._suggest = function (completionSoFar, lexerState, remai
 TokenSuggester.prototype._suggestViaLexerTransition = function(completionSoFar, remainingText, trans) {
     if (trans.isEpsilon) {
         this._suggest(completionSoFar, trans.target, remainingText);
-    } else if (trans.serializationType === 5) { // AtomTransition
+    } else if (trans.serializationType === constants.ATOM_TRANSITION) {
         var transitionToken = this._getAddedTextFor(trans);
         if (transitionToken.startsWith(remainingText)) {
             this._suggestViaNonEpsilonLexerTransition(completionSoFar, remainingText, transitionToken, trans.target);
         }
-    } else if (trans.serializationType === 7) { // SetTransition
+    } else if (trans.serializationType === constants.SET_TRANSITION) {
         trans.label.intervals.forEach((interval) => {
             for (var codePoint = interval.start; codePoint <= interval.stop; ++codePoint) {
                 var transitionToken = String.fromCodePoint(codePoint);
