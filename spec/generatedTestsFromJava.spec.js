@@ -1,70 +1,56 @@
-// Generated Wed Dec  6 18:23:15 2017 by make_js.py in antlr4-autosuggest project.
-var autosuggest = require('../autosuggest');
-var r__Q_AB_Q__Q_CD_Q_Lexer = require('./testGrammars/r__Q_AB_Q__Q_CD_Q_Lexer');
-var r__Q_AB_Q__Q_CD_Q_Parser = require('./testGrammars/r__Q_AB_Q__Q_CD_Q_Parser');
-var r__Q_AB_Q__Q_CD_Q_Lexer = require('./testGrammars/r__Q_AB_Q__Q_CD_Q_Lexer');
-var r__Q_AB_Q__Q_CD_Q_Parser = require('./testGrammars/r__Q_AB_Q__Q_CD_Q_Parser');
-var r__Q_AB_Q__Q_CD_Q_Lexer = require('./testGrammars/r__Q_AB_Q__Q_CD_Q_Lexer');
-var r__Q_AB_Q__Q_CD_Q_Parser = require('./testGrammars/r__Q_AB_Q__Q_CD_Q_Parser');
-var r__Q_AB_Q__Q_CD_Q_Lexer = require('./testGrammars/r__Q_AB_Q__Q_CD_Q_Lexer');
-var r__Q_AB_Q__Q_CD_Q_Parser = require('./testGrammars/r__Q_AB_Q__Q_CD_Q_Parser');
-var r__Q_AB_Q__Q_CD_Q_Lexer = require('./testGrammars/r__Q_AB_Q__Q_CD_Q_Lexer');
-var r__Q_AB_Q__Q_CD_Q_Parser = require('./testGrammars/r__Q_AB_Q__Q_CD_Q_Parser');
-var r__Q_AB_Q__Q_CD_Q_Lexer = require('./testGrammars/r__Q_AB_Q__Q_CD_Q_Lexer');
-var r__Q_AB_Q__Q_CD_Q_Parser = require('./testGrammars/r__Q_AB_Q__Q_CD_Q_Parser');
-var r__LPAR__Q_AB_Q__RPAR__LPAR__Q_CD_Q__RPAR_Lexer = require('./testGrammars/r__LPAR__Q_AB_Q__RPAR__LPAR__Q_CD_Q__RPAR_Lexer');
-var r__LPAR__Q_AB_Q__RPAR__LPAR__Q_CD_Q__RPAR_Parser = require('./testGrammars/r__LPAR__Q_AB_Q__RPAR__LPAR__Q_CD_Q__RPAR_Parser');
-var r__Q_A_Q__QUES__Q_B_Q_Lexer = require('./testGrammars/r__Q_A_Q__QUES__Q_B_Q_Lexer');
-var r__Q_A_Q__QUES__Q_B_Q_Parser = require('./testGrammars/r__Q_A_Q__QUES__Q_B_Q_Parser');
-var r__Q_A_Q___Q_B_Q_Lexer = require('./testGrammars/r__Q_A_Q___Q_B_Q_Lexer');
-var r__Q_A_Q___Q_B_Q_Parser = require('./testGrammars/r__Q_A_Q___Q_B_Q_Parser');
-var r__Q_A_Q__Q_B_Q__QUES_Lexer = require('./testGrammars/r__Q_A_Q__Q_B_Q__QUES_Lexer');
-var r__Q_A_Q__Q_B_Q__QUES_Parser = require('./testGrammars/r__Q_A_Q__Q_B_Q__QUES_Parser');
-var r_a_b_a__Q_A_Q__b__Q_B_Q_Lexer = require('./testGrammars/r_a_b_a__Q_A_Q__b__Q_B_Q_Lexer');
-var r_a_b_a__Q_A_Q__b__Q_B_Q_Parser = require('./testGrammars/r_a_b_a__Q_A_Q__b__Q_B_Q_Parser');
-var r_A_A__A_E_Lexer = require('./testGrammars/r_A_A__A_E_Lexer');
-var r_A_A__A_E_Parser = require('./testGrammars/r_A_A__A_E_Parser');
-var r_A_A__A_E__Q_X_Q_Lexer = require('./testGrammars/r_A_A__A_E__Q_X_Q_Lexer');
-var r_A_A__A_E__Q_X_Q_Parser = require('./testGrammars/r_A_A__A_E__Q_X_Q_Parser');
-var r_A_fragmentA__A_Z_Lexer = require('./testGrammars/r_A_fragmentA__A_Z_Lexer');
-var r_A_fragmentA__A_Z_Parser = require('./testGrammars/r_A_fragmentA__A_Z_Parser');
-var r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipLexer = require('./testGrammars/r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipLexer');
-var r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipParser = require('./testGrammars/r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipParser');
-var r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipLexer = require('./testGrammars/r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipLexer');
-var r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipParser = require('./testGrammars/r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipParser');
-var r_A_A__Q_A_Q__STAR_Lexer = require('./testGrammars/r_A_A__Q_A_Q__STAR_Lexer');
-var r_A_A__Q_A_Q__STAR_Parser = require('./testGrammars/r_A_A__Q_A_Q__STAR_Parser');
-var r_A_A__Q_A_Q__PLUS_Lexer = require('./testGrammars/r_A_A__Q_A_Q__PLUS_Lexer');
-var r_A_A__Q_A_Q__PLUS_Parser = require('./testGrammars/r_A_A__Q_A_Q__PLUS_Parser');
-var r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Lexer = require('./testGrammars/r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Lexer');
-var r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser = require('./testGrammars/r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser');
-var r_A_A__Q_A_Q__Q_B_Q__PLUS__Q_C_Q_Lexer = require('./testGrammars/r_A_A__Q_A_Q__Q_B_Q__PLUS__Q_C_Q_Lexer');
-var r_A_A__Q_A_Q__Q_B_Q__PLUS__Q_C_Q_Parser = require('./testGrammars/r_A_A__Q_A_Q__Q_B_Q__PLUS__Q_C_Q_Parser');
-var r__Q_A_Q_B_fragmentB__Q_B_Q_Lexer = require('./testGrammars/r__Q_A_Q_B_fragmentB__Q_B_Q_Lexer');
-var r__Q_A_Q_B_fragmentB__Q_B_Q_Parser = require('./testGrammars/r__Q_A_Q_B_fragmentB__Q_B_Q_Parser');
-var r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q_Lexer = require('./testGrammars/r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q_Lexer');
-var r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q_Parser = require('./testGrammars/r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q_Parser');
-var r0_r1_r2_r1__Q_AB_Q__r2__Q_AC_Q_Lexer = require('./testGrammars/r0_r1_r2_r1__Q_AB_Q__r2__Q_AC_Q_Lexer');
-var r0_r1_r2_r1__Q_AB_Q__r2__Q_AC_Q_Parser = require('./testGrammars/r0_r1_r2_r1__Q_AB_Q__r2__Q_AC_Q_Parser');
-var r0__Q_A_Q__Q_B_Q_Lexer = require('./testGrammars/r0__Q_A_Q__Q_B_Q_Lexer');
-var r0__Q_A_Q__Q_B_Q_Parser = require('./testGrammars/r0__Q_A_Q__Q_B_Q_Parser');
-var r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q__Q_EF_Q_Lexer = require('./testGrammars/r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q__Q_EF_Q_Lexer');
-var r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q__Q_EF_Q_Parser = require('./testGrammars/r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q__Q_EF_Q_Parser');
-var r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q_Lexer = require('./testGrammars/r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q_Lexer');
-var r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q_Parser = require('./testGrammars/r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q_Parser');
+// Generated Wed Dec  6 18:54:35 2017 by make_js.py in antlr4-autosuggest project.
+const autosuggest = require('../autosuggest');
+const r__Q_AB_Q__Q_CD_Q_Lexer = require('./testGrammars/r__Q_AB_Q__Q_CD_Q_Lexer');
+const r__Q_AB_Q__Q_CD_Q_Parser = require('./testGrammars/r__Q_AB_Q__Q_CD_Q_Parser');
+const r__LPAR__Q_AB_Q__RPAR__LPAR__Q_CD_Q__RPAR_Lexer = require('./testGrammars/r__LPAR__Q_AB_Q__RPAR__LPAR__Q_CD_Q__RPAR_Lexer');
+const r__LPAR__Q_AB_Q__RPAR__LPAR__Q_CD_Q__RPAR_Parser = require('./testGrammars/r__LPAR__Q_AB_Q__RPAR__LPAR__Q_CD_Q__RPAR_Parser');
+const r__Q_A_Q__QUES__Q_B_Q_Lexer = require('./testGrammars/r__Q_A_Q__QUES__Q_B_Q_Lexer');
+const r__Q_A_Q__QUES__Q_B_Q_Parser = require('./testGrammars/r__Q_A_Q__QUES__Q_B_Q_Parser');
+const r__Q_A_Q___Q_B_Q_Lexer = require('./testGrammars/r__Q_A_Q___Q_B_Q_Lexer');
+const r__Q_A_Q___Q_B_Q_Parser = require('./testGrammars/r__Q_A_Q___Q_B_Q_Parser');
+const r__Q_A_Q__Q_B_Q__QUES_Lexer = require('./testGrammars/r__Q_A_Q__Q_B_Q__QUES_Lexer');
+const r__Q_A_Q__Q_B_Q__QUES_Parser = require('./testGrammars/r__Q_A_Q__Q_B_Q__QUES_Parser');
+const r_a_b_a__Q_A_Q__b__Q_B_Q_Lexer = require('./testGrammars/r_a_b_a__Q_A_Q__b__Q_B_Q_Lexer');
+const r_a_b_a__Q_A_Q__b__Q_B_Q_Parser = require('./testGrammars/r_a_b_a__Q_A_Q__b__Q_B_Q_Parser');
+const r_A_A__A_E_Lexer = require('./testGrammars/r_A_A__A_E_Lexer');
+const r_A_A__A_E_Parser = require('./testGrammars/r_A_A__A_E_Parser');
+const r_A_A__A_E__Q_X_Q_Lexer = require('./testGrammars/r_A_A__A_E__Q_X_Q_Lexer');
+const r_A_A__A_E__Q_X_Q_Parser = require('./testGrammars/r_A_A__A_E__Q_X_Q_Parser');
+const r_A_fragmentA__A_Z_Lexer = require('./testGrammars/r_A_fragmentA__A_Z_Lexer');
+const r_A_fragmentA__A_Z_Parser = require('./testGrammars/r_A_fragmentA__A_Z_Parser');
+const r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipLexer = require('./testGrammars/r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipLexer');
+const r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipParser = require('./testGrammars/r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipParser');
+const r_A_A__Q_A_Q__STAR_Lexer = require('./testGrammars/r_A_A__Q_A_Q__STAR_Lexer');
+const r_A_A__Q_A_Q__STAR_Parser = require('./testGrammars/r_A_A__Q_A_Q__STAR_Parser');
+const r_A_A__Q_A_Q__PLUS_Lexer = require('./testGrammars/r_A_A__Q_A_Q__PLUS_Lexer');
+const r_A_A__Q_A_Q__PLUS_Parser = require('./testGrammars/r_A_A__Q_A_Q__PLUS_Parser');
+const r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Lexer = require('./testGrammars/r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Lexer');
+const r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser = require('./testGrammars/r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser');
+const r_A_A__Q_A_Q__Q_B_Q__PLUS__Q_C_Q_Lexer = require('./testGrammars/r_A_A__Q_A_Q__Q_B_Q__PLUS__Q_C_Q_Lexer');
+const r_A_A__Q_A_Q__Q_B_Q__PLUS__Q_C_Q_Parser = require('./testGrammars/r_A_A__Q_A_Q__Q_B_Q__PLUS__Q_C_Q_Parser');
+const r__Q_A_Q_B_fragmentB__Q_B_Q_Lexer = require('./testGrammars/r__Q_A_Q_B_fragmentB__Q_B_Q_Lexer');
+const r__Q_A_Q_B_fragmentB__Q_B_Q_Parser = require('./testGrammars/r__Q_A_Q_B_fragmentB__Q_B_Q_Parser');
+const r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q_Lexer = require('./testGrammars/r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q_Lexer');
+const r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q_Parser = require('./testGrammars/r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q_Parser');
+const r0_r1_r2_r1__Q_AB_Q__r2__Q_AC_Q_Lexer = require('./testGrammars/r0_r1_r2_r1__Q_AB_Q__r2__Q_AC_Q_Lexer');
+const r0_r1_r2_r1__Q_AB_Q__r2__Q_AC_Q_Parser = require('./testGrammars/r0_r1_r2_r1__Q_AB_Q__r2__Q_AC_Q_Parser');
+const r0__Q_A_Q__Q_B_Q_Lexer = require('./testGrammars/r0__Q_A_Q__Q_B_Q_Lexer');
+const r0__Q_A_Q__Q_B_Q_Parser = require('./testGrammars/r0__Q_A_Q__Q_B_Q_Parser');
+const r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q__Q_EF_Q_Lexer = require('./testGrammars/r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q__Q_EF_Q_Lexer');
+const r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q__Q_EF_Q_Parser = require('./testGrammars/r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q__Q_EF_Q_Parser');
 
 
 describe('Autosuggest', function () {
-    var factory;
-    var suggester;
+    let factory;
+    let suggester;
 
-    var givenGrammar = function (lexerCtr, parserCtr) {
+    const givenGrammar = function (lexerCtr, parserCtr) {
         factory = new autosuggest.GrammarFactory(lexerCtr, parserCtr);
     };
-    var whenInput = function (input) {
+    const whenInput = function (input) {
         suggester = new autosuggest.AutoSuggester(factory, input);
     };
-    var thenExpect = function (expectedSuggestions) {
+    const thenExpect = function (expectedSuggestions) {
         expect(suggester.suggest().sort()).toEqual(expectedSuggestions.sort());
     };
 
