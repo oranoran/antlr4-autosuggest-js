@@ -192,10 +192,9 @@ AutoSuggester.prototype.createLexer = function (input) {
 AutoSuggester.prototype.createParser = function (tokenStream) {
     return new this._parserCtr(tokenStream);
 };
-
 AutoSuggester.prototype.autosuggest = function(inputText) {
     return new AutoSuggestionsGenerator(this, inputText).suggest();
-}
+};
 
 var autosuggester = function(lexerCtr, parserCtr) {
     return new AutoSuggester(lexerCtr, parserCtr);
