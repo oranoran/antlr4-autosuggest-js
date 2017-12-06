@@ -24,7 +24,7 @@ const autosuggest = require('antlr4-autosuggest');
 const autosuggester = autosuggest.autosuggester(lexerModule.myGrammarLexer, parserModule.myGrammarParser);
 
 // Suggest completions for the string "ABC"
-var suggestions = autosuggester.autosuggest("ABC");
+let suggestions = autosuggester.autosuggest("ABC");
 ```
 
 How It Works
