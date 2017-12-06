@@ -57,11 +57,12 @@ TokenSuggester.prototype._suggestViaLexerTransition = function(completionSoFar, 
             this._suggestViaNonEpsilonLexerTransition(completionSoFar, remainingText, transitionToken, trans.target);
         }
     } else if (trans.serializationType === 7) { // SetTransition
-        var symbols = trans.label;
-        symbols.forEach((symbol)=>{
-            var transitionToken = symbol;
-            if(transitionToken.startsWith(remainingText)) {
-                this._suggestViaNonEpsilonLexerTransition(completionSoFar, remainingText, transitionToken, trans.target);
+        trans.label.intervals.forEach((interval) => {
+            for (var codePoint = interval.start; codePoint <= interval.stop; ++codePoint) {
+                var transitionToken = String.fromCodePoint(codePoint);
+                if (transitionToken.startsWith(remainingText)) {
+                    this._suggestViaNonEpsilonLexerTransition(completionSoFar, remainingText, transitionToken, trans.target);
+                }
             }
         });
     }
