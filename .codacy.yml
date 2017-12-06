@@ -1,5 +1,4 @@
 exclude_paths:
-  - '**/*Parser.js'
-  - '**/*Lexer.js'
-  - '**/*Listener.js'
+  - 'spec/testGrammars/*.js'
+  - 'spec/generatedTestsFromJava.spec.js'
 
