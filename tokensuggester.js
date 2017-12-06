@@ -66,13 +66,13 @@ TokenSuggester.prototype._suggestViaLexerTransition = function(completionSoFar, 
             }
         });
     }
-}
+};
 
 TokenSuggester.prototype._suggestViaNonEpsilonLexerTransition = function(completionSoFar, remainingText, transitionToken, targetState) {
     var newTransitionToken = this._chopOffCommonStart(transitionToken, remainingText);
     var newRemainingText = this._chopOffCommonStart(remainingText, transitionToken);
     this._suggest(completionSoFar + newTransitionToken, targetState, newRemainingText);
-}
+};
 
 TokenSuggester.prototype._suggestViaParserTransition = function(parserState, remainingText) {
     parserState.transitions.forEach((transition) => {
@@ -84,7 +84,7 @@ TokenSuggester.prototype._suggestViaParserTransition = function(parserState, rem
             this._suggest('', lexerState, remainingText);
         }
     });
-}
+};
 
 TokenSuggester.prototype._chopOffCommonStart = function (remainingText, transitionToken) {
     var charsToChopOff = Math.min(transitionToken.length, remainingText.length);

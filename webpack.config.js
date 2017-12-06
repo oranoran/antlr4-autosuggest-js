@@ -7,8 +7,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'antlr4-autosuggest.js',
-    libraryTarget: "umd",
-    library: "Antlr4Autosuggest"
+    libraryTarget: 'umd',
+    library: 'Antlr4Autosuggest'
   },
   node: {
     fs: 'empty'
@@ -20,7 +20,7 @@ module.exports = {
   externals: [nodeExternals()], // in order to ignore all modules in node_modules folder,
   module: {
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }
     ]
   }
 };
