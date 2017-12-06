@@ -176,5 +176,24 @@ AutoSuggester.prototype._isParseableWithAddedToken = function (parserState, newT
     return parseable;
 };
 
+
+function GrammarFactory(lexerCtr, parserCtr) {
+    this._lexerCtr = lexerCtr;
+    this._parserCtr = parserCtr;
+    return this;
+}
+
+GrammarFactory.prototype.constructor = GrammarFactory;
+
+GrammarFactory.prototype.createLexer = function (input) {
+    return new this._lexerCtr(input);
+};
+GrammarFactory.prototype.createParser = function (tokenStream) {
+    return new this._parserCtr(tokenStream);
+};
+
+
 module.exports.AutoSuggester = AutoSuggester;
+module.exports.GrammarFactory = GrammarFactory;
+
 
