@@ -1,4 +1,3 @@
-const webpack = require('webpack'); //to access built-in plugins
 var nodeExternals = require('webpack-node-externals');
 const path = require('path');
 
@@ -14,7 +13,6 @@ module.exports = {
     fs: 'empty'
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin(),
   ],
   target: 'node', // in order to ignore built-in modules like path, fs, etc.
   externals: [nodeExternals()], // in order to ignore all modules in node_modules folder,
