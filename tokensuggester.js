@@ -74,13 +74,13 @@ TokenSuggester.prototype._suggestViaNonEpsilonLexerTransition = function(complet
     this._suggest(completionSoFar + newTransitionToken, targetState, newRemainingText);
 }
 
-TokenSuggester.prototype._suggestViaParserTransition = function(parserState, remainingTest) {
+TokenSuggester.prototype._suggestViaParserTransition = function(parserState, remainingText) {
     parserState.transitions.forEach((transition) => {
         if (transition.isEpsilon) {
-            this._suggestViaParserTransition(transition.target, remainingTest);
+            this._suggestViaParserTransition(transition.target, remainingText);
         }
         else if (transition.serializationType === 5) { // AtomTransition
-            lexerState = this._toLexerState(transition.target);
+            var lexerState = this._toLexerState(transition.target);
             this._suggest('', lexerState, remainingText);
         }
     });
