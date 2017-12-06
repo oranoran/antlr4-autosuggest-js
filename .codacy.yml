@@ -1,3 +1,5 @@
 exclude_paths:
-  - **/*Parser.js
-  - **/*Lexer.js
+  - '**/*Parser.js'
+  - '**/*Lexer.js'
+  - '**/*Listener.js'
+
