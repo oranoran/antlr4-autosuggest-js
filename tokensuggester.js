@@ -31,7 +31,7 @@ TokenSuggester.prototype._toLexerState = function (parserState) {
 };
 
 TokenSuggester.prototype._suggest = function (completionSoFar, lexerState, remainingText) {
-    if (lexerState.stateNumber in this._visitedLexerStates) {
+    if (this._visitedLexerStates.includes(lexerState.stateNumber)) {
         return; // avoid infinite loop and stack overflow
     }
     this._visitedLexerStates.push(lexerState.stateNumber);
