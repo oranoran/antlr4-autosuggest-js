@@ -20,7 +20,7 @@ const lexerModule = require('./myGrammarLexer.js');
 const parserModule = require('./myGrammarParser.js');
 
 // Create an autosuggester, providing it with the lexer and parser classes
-const autosuggest = require('autosuggest');
+const autosuggest = require('antlr4-autosuggest');
 const autosuggester = autosuggest.autosuggester(lexerModule.myGrammarLexer, parserModule.myGrammarParser);
 
 // Suggest completions for the string "ABC"
