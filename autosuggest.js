@@ -162,9 +162,11 @@ AutoSuggester.prototype._isParseableWithAddedToken = function (parserState, newT
                 parseable = true;
             }
         } else if (parserTransition.serializationType === 7) { //antlr4.atn.Transition.SET) {) {
-            parserTransition.label.forEach((transitionTokenType) => {
-                if (transitionTokenType === newToken.type) {
-                    parseable = true;
+            parserTransition.label.intervals.forEach((interval) => {
+                for (var transitionTokenType = interval.start; transitionTokenType <= interval.stop; ++transitionTokenType) {
+                    if (transitionTokenType === newToken.type) {
+                        parseable = true;
+                    }
                 }
             });
         } else {
