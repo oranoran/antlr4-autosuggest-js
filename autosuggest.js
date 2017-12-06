@@ -193,8 +193,10 @@ GrammarFactory.prototype.createParser = function (tokenStream) {
     return new this._parserCtr(tokenStream);
 };
 
+var suggest = function(factory, inputText) {
+    return new AutoSuggester(factory, inputText).suggest();
+}
 
 module.exports.AutoSuggester = AutoSuggester;
 module.exports.GrammarFactory = GrammarFactory;
-
-
+module.exports.suggest = suggest;
