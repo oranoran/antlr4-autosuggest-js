@@ -2,6 +2,8 @@
 const autosuggest = require('../autosuggest');
 const r__Q_AB_Q__Q_CD_Q_Lexer = require('./testGrammars/r__Q_AB_Q__Q_CD_Q_Lexer');
 const r__Q_AB_Q__Q_CD_Q_Parser = require('./testGrammars/r__Q_AB_Q__Q_CD_Q_Parser');
+const r__Q_ABC_Q_Lexer = require('./testGrammars/r__Q_ABC_Q_Lexer');
+const r__Q_ABC_Q_Parser = require('./testGrammars/r__Q_ABC_Q_Parser');
 const r__LPAR__Q_AB_Q__RPAR__LPAR__Q_CD_Q__RPAR_Lexer = require('./testGrammars/r__LPAR__Q_AB_Q__RPAR__LPAR__Q_CD_Q__RPAR_Lexer');
 const r__LPAR__Q_AB_Q__RPAR__LPAR__Q_CD_Q__RPAR_Parser = require('./testGrammars/r__LPAR__Q_AB_Q__RPAR__LPAR__Q_CD_Q__RPAR_Parser');
 const r__Q_A_Q__QUES__Q_B_Q_Lexer = require('./testGrammars/r__Q_A_Q__QUES__Q_B_Q_Lexer');
@@ -16,6 +18,12 @@ const r_A_A__A_E_Lexer = require('./testGrammars/r_A_A__A_E_Lexer');
 const r_A_A__A_E_Parser = require('./testGrammars/r_A_A__A_E_Parser');
 const r_A_A__A_E__Q_X_Q_Lexer = require('./testGrammars/r_A_A__A_E__Q_X_Q_Lexer');
 const r_A_A__A_E__Q_X_Q_Parser = require('./testGrammars/r_A_A__A_E__Q_X_Q_Parser');
+const r_A_A__Q_AB_Q__C_E__Q_X_Q_Lexer = require('./testGrammars/r_A_A__Q_AB_Q__C_E__Q_X_Q_Lexer');
+const r_A_A__Q_AB_Q__C_E__Q_X_Q_Parser = require('./testGrammars/r_A_A__Q_AB_Q__C_E__Q_X_Q_Parser');
+const r_A_A__Q_A_Q__B_C__D_E_Lexer = require('./testGrammars/r_A_A__Q_A_Q__B_C__D_E_Lexer');
+const r_A_A__Q_A_Q__B_C__D_E_Parser = require('./testGrammars/r_A_A__Q_A_Q__B_C__D_E_Parser');
+const r_A_A__A_B__C_D__E_F_Lexer = require('./testGrammars/r_A_A__A_B__C_D__E_F_Lexer');
+const r_A_A__A_B__C_D__E_F_Parser = require('./testGrammars/r_A_A__A_B__C_D__E_F_Parser');
 const r_A_fragmentA__A_Z_Lexer = require('./testGrammars/r_A_fragmentA__A_Z_Lexer');
 const r_A_fragmentA__A_Z_Parser = require('./testGrammars/r_A_fragmentA__A_Z_Parser');
 const r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipLexer = require('./testGrammars/r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipLexer');
@@ -58,6 +66,12 @@ describe('Autosuggest', function () {
         givenGrammar(r__Q_AB_Q__Q_CD_Q_Lexer.r__Q_AB_Q__Q_CD_Q_Lexer, r__Q_AB_Q__Q_CD_Q_Parser.r__Q_AB_Q__Q_CD_Q_Parser);
         whenInput('');
         thenExpect(["AB"]);
+    });
+
+    it('should handle grammar "r: \'ABC\';" with input "AB"', function () {
+        givenGrammar(r__Q_ABC_Q_Lexer.r__Q_ABC_Q_Lexer, r__Q_ABC_Q_Parser.r__Q_ABC_Q_Parser);
+        whenInput('AB');
+        thenExpect(["C"]);
     });
 
     it('should handle grammar "r: \'AB\' \'CD\';" with input "AB"', function () {
@@ -130,6 +144,24 @@ describe('Autosuggest', function () {
         givenGrammar(r_A_A__A_E__Q_X_Q_Lexer.r_A_A__A_E__Q_X_Q_Lexer, r_A_A__A_E__Q_X_Q_Parser.r_A_A__A_E__Q_X_Q_Parser);
         whenInput('C');
         thenExpect(["X"]);
+    });
+
+    it('should handle grammar "r: A; A: \'AB\' [C-E] \'X\';" with input "AB"', function () {
+        givenGrammar(r_A_A__Q_AB_Q__C_E__Q_X_Q_Lexer.r_A_A__Q_AB_Q__C_E__Q_X_Q_Lexer, r_A_A__Q_AB_Q__C_E__Q_X_Q_Parser.r_A_A__Q_AB_Q__C_E__Q_X_Q_Parser);
+        whenInput('AB');
+        thenExpect(["CX", "DX", "EX"]);
+    });
+
+    it('should handle grammar "r: A; A: \'A\' [B-C] [D-E];" with input "AB"', function () {
+        givenGrammar(r_A_A__Q_A_Q__B_C__D_E_Lexer.r_A_A__Q_A_Q__B_C__D_E_Lexer, r_A_A__Q_A_Q__B_C__D_E_Parser.r_A_A__Q_A_Q__B_C__D_E_Parser);
+        whenInput('AB');
+        thenExpect(["D", "E"]);
+    });
+
+    it('should handle grammar "r: A; A: [A-B] [C-D] [E-F];" with input "AD"', function () {
+        givenGrammar(r_A_A__A_B__C_D__E_F_Lexer.r_A_A__A_B__C_D__E_F_Lexer, r_A_A__A_B__C_D__E_F_Parser.r_A_A__A_B__C_D__E_F_Parser);
+        whenInput('AD');
+        thenExpect(["E", "F"]);
     });
 
     it('should handle grammar "r: A; fragment A: [A-Z];" with input ""', function () {
