@@ -118,7 +118,7 @@ AutoSuggestionsGenerator.prototype._handleSetTransition = function (trans, token
     var nextTokenType = nextToken.type;
     trans.label.intervals.forEach((interval) => {
         for (var transitionTokenType = interval.start; transitionTokenType <= interval.stop; ++transitionTokenType) {
-            var nextTokenMatchesTransition = (transitionTokenType == nextTokenType);
+            var nextTokenMatchesTransition = (transitionTokenType === nextTokenType);
             if (nextTokenMatchesTransition) {
                 debug(this._indent + 'Token ' + nextToken + ' following transition: ' + transToStr(trans) + ' to ' + transitionTokenType);
                 this._parseAndCollectTokenSuggestions(trans.target, tokenListIndex + 1);
