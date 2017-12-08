@@ -46,6 +46,10 @@ const r0__Q_A_Q__Q_B_Q_Lexer = require('./testGrammars/r0__Q_A_Q__Q_B_Q_Lexer');
 const r0__Q_A_Q__Q_B_Q_Parser = require('./testGrammars/r0__Q_A_Q__Q_B_Q_Parser');
 const r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q__Q_EF_Q_Lexer = require('./testGrammars/r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q__Q_EF_Q_Lexer');
 const r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q__Q_EF_Q_Parser = require('./testGrammars/r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q__Q_EF_Q_Parser');
+const r0_r1_PLUS__r1__Q_ABC_Q___Q_ABCDE_Q_Lexer = require('./testGrammars/r0_r1_PLUS__r1__Q_ABC_Q___Q_ABCDE_Q_Lexer');
+const r0_r1_PLUS__r1__Q_ABC_Q___Q_ABCDE_Q_Parser = require('./testGrammars/r0_r1_PLUS__r1__Q_ABC_Q___Q_ABCDE_Q_Parser');
+const r0_r1_PLUS__r1__Q_ABC_Q___Q_XYZ_Q_Lexer = require('./testGrammars/r0_r1_PLUS__r1__Q_ABC_Q___Q_XYZ_Q_Lexer');
+const r0_r1_PLUS__r1__Q_ABC_Q___Q_XYZ_Q_Parser = require('./testGrammars/r0_r1_PLUS__r1__Q_ABC_Q___Q_XYZ_Q_Parser');
 
 
 describe('Autosuggest', function () {
@@ -239,6 +243,18 @@ describe('Autosuggest', function () {
     it('should handle grammar "r0: r1 | r2; r1: \'AB\'; r2: \'CD\';" with input "CD"', function () {
         givenGrammar(r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q_Lexer.r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q_Lexer, r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q_Parser.r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q_Parser);
         whenInput('CD');
+        thenExpect([]);
+    });
+
+    it('should handle grammar "r0: r1+; r1: \'ABC\' | \'ABCDE\';" with input "AB"', function () {
+        givenGrammar(r0_r1_PLUS__r1__Q_ABC_Q___Q_ABCDE_Q_Lexer.r0_r1_PLUS__r1__Q_ABC_Q___Q_ABCDE_Q_Lexer, r0_r1_PLUS__r1__Q_ABC_Q___Q_ABCDE_Q_Parser.r0_r1_PLUS__r1__Q_ABC_Q___Q_ABCDE_Q_Parser);
+        whenInput('AB');
+        thenExpect(["C", "CDE"]);
+    });
+
+    it('should handle grammar "r0: r1+; r1: \'ABC\' | \'XYZ\';" with input "ABC"', function () {
+        givenGrammar(r0_r1_PLUS__r1__Q_ABC_Q___Q_XYZ_Q_Lexer.r0_r1_PLUS__r1__Q_ABC_Q___Q_XYZ_Q_Lexer, r0_r1_PLUS__r1__Q_ABC_Q___Q_XYZ_Q_Parser.r0_r1_PLUS__r1__Q_ABC_Q___Q_XYZ_Q_Parser);
+        whenInput('ABC');
         thenExpect([]);
     });
 

@@ -88,8 +88,7 @@ AutoSuggestionsGenerator.prototype._parseAndCollectTokenSuggestions = function (
             } else if (trans.serializationType === constants.ATOM_TRANSITION) {
                 this._handleAtomicTransition(trans, tokenListIndex);
             } else {
-                // Maybe can also get SetTransition?
-                throw new 'Unsupported parser transition: ' + transToStr(trans);
+                this._handleSetTransition(trans, tokenListIndex);
             }
         });
     } finally {
@@ -112,6 +111,22 @@ AutoSuggestionsGenerator.prototype._handleAtomicTransition = function (trans, to
     if (nextTokenMatchesTransition) {
         this._parseAndCollectTokenSuggestions(trans.target, tokenListIndex + 1);
     }
+};
+
+AutoSuggestionsGenerator.prototype._handleSetTransition = function (trans, tokenListIndex) {
+    var nextToken = this._inputTokens.slice(tokenListIndex, tokenListIndex + 1)[0];
+    var nextTokenType = nextToken.type;
+    trans.label.intervals.forEach((interval) => {
+        for (var transitionTokenType = interval.start; transitionTokenType <= interval.stop; ++transitionTokenType) {
+            var nextTokenMatchesTransition = (transitionTokenType == nextTokenType);
+            if (nextTokenMatchesTransition) {
+                debug(this._indent + 'Token ' + nextToken + ' following transition: ' + transToStr(trans) + ' to ' + transitionTokenType);
+                this._parseAndCollectTokenSuggestions(trans.target, tokenListIndex + 1);
+            } else {
+                debug(this._indent + 'Token ' + nextToken + ' NOT following transition: ' + transToStr(trans) + ' to ' + transitionTokenType);
+            }
+        }
+    });
 };
 
 AutoSuggestionsGenerator.prototype._suggestNextTokensForParserState = function (parserState) {
