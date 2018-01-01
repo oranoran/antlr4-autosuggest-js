@@ -24,7 +24,7 @@ TokenSuggester.prototype.suggest = function (nextParserTransitionLabels, remaini
 }
 
 TokenSuggester.prototype._findLexerStateByRuleNumber = function (ruleNumber) {
-    return this._lexer.atn.ruleToStartState[ruleNumber];
+    return this._lexer.atn.ruleToStartState.slice(ruleNumber, ruleNumber + 1)[0];
 }
 
 TokenSuggester.prototype._toLexerState = function (parserState) {

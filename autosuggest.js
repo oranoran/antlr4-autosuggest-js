@@ -20,7 +20,6 @@ var transToStr = function (trans) {
     return '' + trans.constructor.name + '->' + trans.target;
 };
 
-
 AutoSuggestionsGenerator.prototype.constructor = AutoSuggestionsGenerator;
 
 AutoSuggestionsGenerator.prototype.suggest = function () {
@@ -40,7 +39,7 @@ AutoSuggestionsGenerator.prototype._tokenizeInput = function () {
 };
 
 AutoSuggestionsGenerator.prototype._filterOutNonDefaultChannels = function (tokens) {
-    return tokens.filter(token => token.channel === 0);
+    return tokens.filter((token) => token.channel === 0);
 };
 
 AutoSuggestionsGenerator.prototype._createLexerWithUntokenizedTextDetection = function () {
@@ -147,13 +146,13 @@ AutoSuggestionsGenerator.prototype._suggestNextTokensForParserState = function (
 };
 
 AutoSuggestionsGenerator.prototype._fillParserTransitionLabels = function (parserState, result) {
-    parserState.transitions.forEach(trans => {
+    parserState.transitions.forEach((trans) => {
         if (trans.isEpsilon) {
             this._fillParserTransitionLabels(trans.target, result);
         } else if (trans.serializationType === constants.ATOM_TRANSITION) {
             result.push(trans.label_);
         } else if (trans.serializationType === constants.SET_TRANSITION) {
-            trans.label.intervals.forEach(interval => {
+            trans.label.intervals.forEach((interval) => {
                 for (var i = interval.start; i < interval.stop; ++i) {
                     result.push(i);
                 }
