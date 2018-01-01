@@ -26,8 +26,8 @@ const r_A_A__A_B__C_D__E_F_Lexer = require('./testGrammars/r_A_A__A_B__C_D__E_F_
 const r_A_A__A_B__C_D__E_F_Parser = require('./testGrammars/r_A_A__A_B__C_D__E_F_Parser');
 const r_A_fragmentA__A_Z_Lexer = require('./testGrammars/r_A_fragmentA__A_Z_Lexer');
 const r_A_fragmentA__A_Z_Parser = require('./testGrammars/r_A_fragmentA__A_Z_Parser');
-const r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipLexer = require('./testGrammars/r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipLexer');
-const r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipParser = require('./testGrammars/r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipParser');
+const r__Q_A_Q__Q_B_Q__WS___BS_t__ARRW_skipLexer = require('./testGrammars/r__Q_A_Q__Q_B_Q__WS___BS_t__ARRW_skipLexer');
+const r__Q_A_Q__Q_B_Q__WS___BS_t__ARRW_skipParser = require('./testGrammars/r__Q_A_Q__Q_B_Q__WS___BS_t__ARRW_skipParser');
 const r_A_A__Q_A_Q__STAR_Lexer = require('./testGrammars/r_A_A__Q_A_Q__STAR_Lexer');
 const r_A_A__Q_A_Q__STAR_Parser = require('./testGrammars/r_A_A__Q_A_Q__STAR_Parser');
 const r_A_A__Q_A_Q__PLUS_Lexer = require('./testGrammars/r_A_A__Q_A_Q__PLUS_Lexer');
@@ -50,6 +50,14 @@ const r0_r1_PLUS__r1__Q_ABC_Q___Q_ABCDE_Q_Lexer = require('./testGrammars/r0_r1_
 const r0_r1_PLUS__r1__Q_ABC_Q___Q_ABCDE_Q_Parser = require('./testGrammars/r0_r1_PLUS__r1__Q_ABC_Q___Q_ABCDE_Q_Parser');
 const r0_r1_PLUS__r1__Q_ABC_Q___Q_XYZ_Q_Lexer = require('./testGrammars/r0_r1_PLUS__r1__Q_ABC_Q___Q_XYZ_Q_Lexer');
 const r0_r1_PLUS__r1__Q_ABC_Q___Q_XYZ_Q_Parser = require('./testGrammars/r0_r1_PLUS__r1__Q_ABC_Q___Q_XYZ_Q_Parser');
+const r_FFFED_C__Q_c_Q__D__Q_d_Q__E__Q_e_Q__F__Q_f_Q_Lexer = require('./testGrammars/r_FFFED_C__Q_c_Q__D__Q_d_Q__E__Q_e_Q__F__Q_f_Q_Lexer');
+const r_FFFED_C__Q_c_Q__D__Q_d_Q__E__Q_e_Q__F__Q_f_Q_Parser = require('./testGrammars/r_FFFED_C__Q_c_Q__D__Q_d_Q__E__Q_e_Q__F__Q_f_Q_Parser');
+const r_AB_A__Q_a_Q__B__Q_b_Q__SP__Q__Q__ARRW_skipLexer = require('./testGrammars/r_AB_A__Q_a_Q__B__Q_b_Q__SP__Q__Q__ARRW_skipLexer');
+const r_AB_A__Q_a_Q__B__Q_b_Q__SP__Q__Q__ARRW_skipParser = require('./testGrammars/r_AB_A__Q_a_Q__B__Q_b_Q__SP__Q__Q__ARRW_skipParser');
+const r_AB_A__Q_a_Q__B__Q_b_Q__SP__Q__Q__ARRW_channel_LPAR_HIDDEN_RPAR_Lexer = require('./testGrammars/r_AB_A__Q_a_Q__B__Q_b_Q__SP__Q__Q__ARRW_channel_LPAR_HIDDEN_RPAR_Lexer');
+const r_AB_A__Q_a_Q__B__Q_b_Q__SP__Q__Q__ARRW_channel_LPAR_HIDDEN_RPAR_Parser = require('./testGrammars/r_AB_A__Q_a_Q__B__Q_b_Q__SP__Q__Q__ARRW_channel_LPAR_HIDDEN_RPAR_Parser');
+const varDecl_typeID_Q___Q_NUMBER_Q___Q__type__Q_float_Q___Q_int_Q__ID_LETTER_LPAR_LETTER__0_9__RPAR__STAR__fragmentLETTER__a_zA_Z__NUMBER_DIGIT_PLUS__fragmentDIGIT__0_9__SPACES___BS_u000B_BS_t_BS_r_BS_n__ARRW_channel_LPAR_HIDDEN_RPAR_Lexer = require('./testGrammars/varDecl_typeID_Q___Q_NUMBER_Q___Q__type__Q_float_Q___Q_int_Q__ID_LETTER_LPAR_LETTER__0_9__RPAR__STAR__fragmentLETTER__a_zA_Z__NUMBER_DIGIT_PLUS__fragmentDIGIT__0_9__SPACES___BS_u000B_BS_t_BS_r_BS_n__ARRW_channel_LPAR_HIDDEN_RPAR_Lexer');
+const varDecl_typeID_Q___Q_NUMBER_Q___Q__type__Q_float_Q___Q_int_Q__ID_LETTER_LPAR_LETTER__0_9__RPAR__STAR__fragmentLETTER__a_zA_Z__NUMBER_DIGIT_PLUS__fragmentDIGIT__0_9__SPACES___BS_u000B_BS_t_BS_r_BS_n__ARRW_channel_LPAR_HIDDEN_RPAR_Parser = require('./testGrammars/varDecl_typeID_Q___Q_NUMBER_Q___Q__type__Q_float_Q___Q_int_Q__ID_LETTER_LPAR_LETTER__0_9__RPAR__STAR__fragmentLETTER__a_zA_Z__NUMBER_DIGIT_PLUS__fragmentDIGIT__0_9__SPACES___BS_u000B_BS_t_BS_r_BS_n__ARRW_channel_LPAR_HIDDEN_RPAR_Parser');
 
 
 describe('Autosuggest', function () {
@@ -129,7 +137,7 @@ describe('Autosuggest', function () {
     it('should handle grammar "r: \'A\' \'B\'?;" with input "A"', function () {
         givenGrammar(r__Q_A_Q__Q_B_Q__QUES_Lexer.r__Q_A_Q__Q_B_Q__QUES_Lexer, r__Q_A_Q__Q_B_Q__QUES_Parser.r__Q_A_Q__Q_B_Q__QUES_Parser);
         whenInput('A');
-        thenExpect([]);
+        thenExpect(["B"]);
     });
 
     it('should handle grammar "r: a | b; a: \'A\'; b: \'B\';" with input ""', function () {
@@ -175,13 +183,13 @@ describe('Autosuggest', function () {
     });
 
     it('should handle grammar "r: \'A\' \'B\'; WS: [ \\t] -> skip;" with input "A "', function () {
-        givenGrammar(r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipLexer.r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipLexer, r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipParser.r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipParser);
+        givenGrammar(r__Q_A_Q__Q_B_Q__WS___BS_t__ARRW_skipLexer.r__Q_A_Q__Q_B_Q__WS___BS_t__ARRW_skipLexer, r__Q_A_Q__Q_B_Q__WS___BS_t__ARRW_skipParser.r__Q_A_Q__Q_B_Q__WS___BS_t__ARRW_skipParser);
         whenInput('A ');
         thenExpect(["B"]);
     });
 
     it('should handle grammar "r: \'A\' \'B\'; WS: [ \\t] -> skip;" with input "A"', function () {
-        givenGrammar(r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipLexer.r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipLexer, r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipParser.r__Q_A_Q__Q_B_Q__WS____t__ARRW_skipParser);
+        givenGrammar(r__Q_A_Q__Q_B_Q__WS___BS_t__ARRW_skipLexer.r__Q_A_Q__Q_B_Q__WS___BS_t__ARRW_skipLexer, r__Q_A_Q__Q_B_Q__WS___BS_t__ARRW_skipParser.r__Q_A_Q__Q_B_Q__WS___BS_t__ARRW_skipParser);
         whenInput('A');
         thenExpect(["B"]);
     });
@@ -255,7 +263,31 @@ describe('Autosuggest', function () {
     it('should handle grammar "r0: r1+; r1: \'ABC\' | \'XYZ\';" with input "ABC"', function () {
         givenGrammar(r0_r1_PLUS__r1__Q_ABC_Q___Q_XYZ_Q_Lexer.r0_r1_PLUS__r1__Q_ABC_Q___Q_XYZ_Q_Lexer, r0_r1_PLUS__r1__Q_ABC_Q___Q_XYZ_Q_Parser.r0_r1_PLUS__r1__Q_ABC_Q___Q_XYZ_Q_Parser);
         whenInput('ABC');
-        thenExpect([]);
+        thenExpect(["ABC", "XYZ"]);
+    });
+
+    it('should handle grammar "r: F F F E D ; C: \'c\'; D: \'d\'; E: \'e\'; F: \'f\';" with input "fff"', function () {
+        givenGrammar(r_FFFED_C__Q_c_Q__D__Q_d_Q__E__Q_e_Q__F__Q_f_Q_Lexer.r_FFFED_C__Q_c_Q__D__Q_d_Q__E__Q_e_Q__F__Q_f_Q_Lexer, r_FFFED_C__Q_c_Q__D__Q_d_Q__E__Q_e_Q__F__Q_f_Q_Parser.r_FFFED_C__Q_c_Q__D__Q_d_Q__E__Q_e_Q__F__Q_f_Q_Parser);
+        whenInput('fff');
+        thenExpect(["e"]);
+    });
+
+    it('should handle grammar "r: A B; A: \'a\'; B: \'b\'; SP: \' \' -> skip;" with input "a "', function () {
+        givenGrammar(r_AB_A__Q_a_Q__B__Q_b_Q__SP__Q__Q__ARRW_skipLexer.r_AB_A__Q_a_Q__B__Q_b_Q__SP__Q__Q__ARRW_skipLexer, r_AB_A__Q_a_Q__B__Q_b_Q__SP__Q__Q__ARRW_skipParser.r_AB_A__Q_a_Q__B__Q_b_Q__SP__Q__Q__ARRW_skipParser);
+        whenInput('a ');
+        thenExpect(["b"]);
+    });
+
+    it('should handle grammar "r: A B; A: \'a\'; B: \'b\'; SP: \' \' -> channel(HIDDEN);" with input "a "', function () {
+        givenGrammar(r_AB_A__Q_a_Q__B__Q_b_Q__SP__Q__Q__ARRW_channel_LPAR_HIDDEN_RPAR_Lexer.r_AB_A__Q_a_Q__B__Q_b_Q__SP__Q__Q__ARRW_channel_LPAR_HIDDEN_RPAR_Lexer, r_AB_A__Q_a_Q__B__Q_b_Q__SP__Q__Q__ARRW_channel_LPAR_HIDDEN_RPAR_Parser.r_AB_A__Q_a_Q__B__Q_b_Q__SP__Q__Q__ARRW_channel_LPAR_HIDDEN_RPAR_Parser);
+        whenInput('a ');
+        thenExpect(["b"]);
+    });
+
+    it('should handle grammar "varDecl: type ID \'=\' NUMBER \';\'; type: \'float\' | \'int\'; ID: LETTER (LETTER | [0-9])*; fragment LETTER : [a-zA-Z]; NUMBER: DIGIT+; fragment DIGIT : [0-9]; SPACES: [ \\u000B\\t\\r\\n] -> channel(HIDDEN);" with input "int a"', function () {
+        givenGrammar(varDecl_typeID_Q___Q_NUMBER_Q___Q__type__Q_float_Q___Q_int_Q__ID_LETTER_LPAR_LETTER__0_9__RPAR__STAR__fragmentLETTER__a_zA_Z__NUMBER_DIGIT_PLUS__fragmentDIGIT__0_9__SPACES___BS_u000B_BS_t_BS_r_BS_n__ARRW_channel_LPAR_HIDDEN_RPAR_Lexer.varDecl_typeID_Q___Q_NUMBER_Q___Q__type__Q_float_Q___Q_int_Q__ID_LETTER_LPAR_LETTER__0_9__RPAR__STAR__fragmentLETTER__a_zA_Z__NUMBER_DIGIT_PLUS__fragmentDIGIT__0_9__SPACES___BS_u000B_BS_t_BS_r_BS_n__ARRW_channel_LPAR_HIDDEN_RPAR_Lexer, varDecl_typeID_Q___Q_NUMBER_Q___Q__type__Q_float_Q___Q_int_Q__ID_LETTER_LPAR_LETTER__0_9__RPAR__STAR__fragmentLETTER__a_zA_Z__NUMBER_DIGIT_PLUS__fragmentDIGIT__0_9__SPACES___BS_u000B_BS_t_BS_r_BS_n__ARRW_channel_LPAR_HIDDEN_RPAR_Parser.varDecl_typeID_Q___Q_NUMBER_Q___Q__type__Q_float_Q___Q_int_Q__ID_LETTER_LPAR_LETTER__0_9__RPAR__STAR__fragmentLETTER__a_zA_Z__NUMBER_DIGIT_PLUS__fragmentDIGIT__0_9__SPACES___BS_u000B_BS_t_BS_r_BS_n__ARRW_channel_LPAR_HIDDEN_RPAR_Parser);
+        whenInput('int a');
+        thenExpect(["="]);
     });
 
 });

@@ -10,6 +10,7 @@ function AutoSuggestionsGenerator(lexerAndParserFactory, input) {
     this._inputTokens = [];
     this._untokenizedText = '';
     this._parserAtn = null;
+    this._parserRuleNames = [];
     this._indent = '';
     this._collectedSuggestions = [];
     return this;
@@ -24,17 +25,22 @@ AutoSuggestionsGenerator.prototype.constructor = AutoSuggestionsGenerator;
 
 AutoSuggestionsGenerator.prototype.suggest = function () {
     this._tokenizeInput();
-    this._createParserAtn();
+    this._storeParserAtnAndRuleNames();
     this._runParserAtnAndCollectSuggestions();
     return this._collectedSuggestions;
 };
 
 AutoSuggestionsGenerator.prototype._tokenizeInput = function () {
     var lexer = this._createLexerWithUntokenizedTextDetection();
-    this._inputTokens = lexer.getAllTokens(); // side effect: also fills this.untokenizedText
+    var allTokens = lexer.getAllTokens(); // side effect: also fills this.untokenizedText
+    this._inputTokens = this._filterOutNonDefaultChannels(allTokens);
     debug('TOKENS FOUND IN FIRST PASS:');
     this._inputTokens.forEach((token) => { debug('' + token); });
     debug('UNTOKENIZED: ' + this._untokenizedText);
+};
+
+AutoSuggestionsGenerator.prototype._filterOutNonDefaultChannels = function (tokens) {
+    return tokens.filter(token => token.channel === 0);
 };
 
 AutoSuggestionsGenerator.prototype._createLexerWithUntokenizedTextDetection = function () {
@@ -59,11 +65,13 @@ AutoSuggestionsGenerator.prototype._createLexer = function (lexerInput) {
     return lexer;
 };
 
-AutoSuggestionsGenerator.prototype._createParserAtn = function () {
+AutoSuggestionsGenerator.prototype._storeParserAtnAndRuleNames = function () {
     var tokenStream = new antlr4.CommonTokenStream(this._createDefaultLexer());
     var parser = this._lexerAndParserFactory.createParser(tokenStream);
     debug('Parser rule names: ' + parser.ruleNames.join(', '));
     this._parserAtn = parser.atn;
+    this._parserRuleNames = parser.ruleNames;
+    
 };
 
 AutoSuggestionsGenerator.prototype._runParserAtnAndCollectSuggestions = function () {
@@ -130,10 +138,28 @@ AutoSuggestionsGenerator.prototype._handleSetTransition = function (trans, token
 };
 
 AutoSuggestionsGenerator.prototype._suggestNextTokensForParserState = function (parserState) {
+    var transitionLabels = [];
+    this._fillParserTransitionLabels(parserState, transitionLabels);
     var tokenSuggester = new TokenSuggester.TokenSuggester(this._createDefaultLexer());
-    var suggestions = tokenSuggester.suggest(parserState, this._untokenizedText);
+    var suggestions = tokenSuggester.suggest(transitionLabels, this._untokenizedText);
     this._parseSuggestionsAndAddValidOnes(parserState, suggestions);
     // logger.debug(indent + 'WILL SUGGEST TOKENS FOR STATE: ' + parserState);
+};
+
+AutoSuggestionsGenerator.prototype._fillParserTransitionLabels = function (parserState, result) {
+    parserState.transitions.forEach(trans => {
+        if (trans.isEpsilon) {
+            this._fillParserTransitionLabels(trans.target, result);
+        } else if (trans.serializationType === constants.ATOM_TRANSITION) {
+            result.push(trans.label_);
+        } else if (trans.serializationType === constants.SET_TRANSITION) {
+            trans.label.intervals.forEach(interval => {
+                for (var i = interval.start; i < interval.stop; ++i) {
+                    result.push(i);
+                }
+            });
+        }
+    });
 };
 
 AutoSuggestionsGenerator.prototype._parseSuggestionsAndAddValidOnes = function (parserState, suggestions) {
@@ -154,7 +180,7 @@ AutoSuggestionsGenerator.prototype._getAddedToken = function (suggestedCompletio
     var completedText = this._input + suggestedCompletion;
     var completedTextLexer = this._createLexer(completedText);
     completedTextLexer.removeErrorListeners();
-    var completedTextTokens = completedTextLexer.getAllTokens();
+    var completedTextTokens = this._filterOutNonDefaultChannels(completedTextLexer.getAllTokens());
     if (completedTextTokens.length <= this._inputTokens.length) {
         return null; // Completion didn't yield whole token, could be just a token fragment
     }

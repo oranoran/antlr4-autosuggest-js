@@ -12,18 +12,20 @@ function TokenSuggester(lexer) {
 
 TokenSuggester.prototype.constructor = TokenSuggester;
 
-TokenSuggester.prototype.suggest = function (parserState, remainingText) {
+TokenSuggester.prototype.suggest = function (nextParserTransitionLabels, remainingText) {
+    debug("Suggesting tokens for rule numbers: " + nextParserTransitionLabels);
     this._origPartialToken = remainingText;
-    var lexerState = this._toLexerState(parserState);
-    if (lexerState == null) {
-        return this._suggestions;
-    } else if (lexerState.transitions.length === 0) { // at end of token
-        this._suggestViaParserTransition(parserState, remainingText);
-    } else {
+    nextParserTransitionLabels.forEach(nextParserTransitionLabel => {
+        var nextTokenRuleNumber = nextParserTransitionLabel - 1; // Count from 0 not from 1
+        var lexerState = this._findLexerStateByRuleNumber(nextTokenRuleNumber);
         this._suggest('', lexerState, remainingText);
-    }
+    });
     return this._suggestions;
-};
+}
+
+TokenSuggester.prototype._findLexerStateByRuleNumber = function (ruleNumber) {
+    return this._lexer.atn.ruleToStartState[ruleNumber];
+}
 
 TokenSuggester.prototype._toLexerState = function (parserState) {
     var lexerState = this._lexer.atn.states.find((x) => { return (x.stateNumber === parserState.stateNumber); });
@@ -79,18 +81,6 @@ TokenSuggester.prototype._suggestViaLexerTransition = function (tokenSoFar, rema
 TokenSuggester.prototype._suggestViaNonEpsilonLexerTransition = function (tokenSoFar, remainingText, newTokenChar, targetState) {
     var newRemainingText = (remainingText.length > 0) ? remainingText.substr(1) : '';
     this._suggest(tokenSoFar + newTokenChar, targetState, newRemainingText);
-};
-
-TokenSuggester.prototype._suggestViaParserTransition = function (parserState, remainingText) {
-    parserState.transitions.forEach((transition) => {
-        if (transition.isEpsilon) {
-            this._suggestViaParserTransition(transition.target, remainingText);
-        }
-        else if (transition.serializationType === 5) { // AtomTransition
-            var lexerState = this._toLexerState(transition.target);
-            this._suggest('', lexerState, remainingText);
-        }
-    });
 };
 
 TokenSuggester.prototype._addSuggestedToken = function (tokenToAdd) {
