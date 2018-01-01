@@ -2,8 +2,7 @@ JavaScript autosuggest engine for ANTLR4 grammars
 =================================================
 Oran Epelbaum
 
-[<img src="https://travis-ci.org/oranoran/antlr4-autosuggest-js.svg?branch=master">](https://travis-ci.org/oranoran/antlr4-autosuggest-js ) [<img src="https://api.codacy.com/project/badge/Grade/b5195e72e90043f79d9c3cbf7e80bd1e">](https://www.codacy.com/app/oranoran/antlr4-autosuggest-js?utm_content=oranoran/antlr4-autosuggest-js&utm_campaign=Badge_Grade ) [![npm version](https://badge.fury.io/js/antlr4-autosuggest.svg)](https://badge.fury.io/js/antlr4-autosuggest)
-
+[<img src="https://travis-ci.org/oranoran/antlr4-autosuggest-js.svg?branch=master">](https://travis-ci.org/oranoran/antlr4-autosuggest-js ) [<img src="https://api.codacy.com/project/badge/Grade/b5195e72e90043f79d9c3cbf7e80bd1e">](https://www.codacy.com/app/oranoran/antlr4-autosuggest-js?utm_content=oranoran/antlr4-autosuggest-js&utm_campaign=Badge_Grade ) [![npm version](https://badge.fury.io/js/antlr4-autosuggest.svg)](https://badge.fury.io/js/antlr4-autosuggest) [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/b5195e72e90043f79d9c3cbf7e80bd1e)](https://www.codacy.com/app/oranoran/antlr4-autosuggest-js)
 
 Getting the antlr-autosuggest JavaScript Module
 -----------------------------------------------
