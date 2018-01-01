@@ -5,6 +5,7 @@
   "main": "antlr4-autosuggest.js",
   "scripts": {
     "test": "DEBUG=\"*\" jasmine",
+    "coverage": "nyc -x 'spec/**/*.js' jasmine",
     "build": "webpack && cp README.md LICENSE package.json dist/"
   },
   "repository": {
@@ -33,6 +34,7 @@
     "eslint": "^4.12.1",
     "jasmine": "^2.8.0",
     "jshint": "^2.9.5",
+    "nyc": "^11.4.1",
     "webpack": "^3.10.0",
     "webpack-node-externals": "^1.6.0"
   },
