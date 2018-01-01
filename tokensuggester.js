@@ -21,11 +21,11 @@ TokenSuggester.prototype.suggest = function (nextParserTransitionLabels, remaini
         this._suggest('', lexerState, remainingText);
     });
     return this._suggestions;
-}
+};
 
 TokenSuggester.prototype._findLexerStateByRuleNumber = function (ruleNumber) {
     return this._lexer.atn.ruleToStartState.slice(ruleNumber, ruleNumber + 1)[0];
-}
+};
 
 TokenSuggester.prototype._toLexerState = function (parserState) {
     var lexerState = this._lexer.atn.states.find((x) => { return (x.stateNumber === parserState.stateNumber); });
