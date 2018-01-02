@@ -27,14 +27,6 @@ TokenSuggester.prototype._findLexerStateByRuleNumber = function (ruleNumber) {
     return this._lexer.atn.ruleToStartState.slice(ruleNumber, ruleNumber + 1)[0];
 };
 
-TokenSuggester.prototype._toLexerState = function (parserState) {
-    var lexerState = this._lexer.atn.states.find((x) => { return (x.stateNumber === parserState.stateNumber); });
-    if (lexerState == null) {
-        debug('No lexer state matches parser state ' + parserState + ', not suggesting completions.');
-    }
-    return lexerState;
-};
-
 TokenSuggester.prototype._suggest = function (tokenSoFar, lexerState, remainingText) {
     debug('SUGGEST: tokenSoFar=' + tokenSoFar + ' remainingText=' + remainingText + ' lexerState=' + lexerState);
     if (this._visitedLexerStates.includes(lexerState.stateNumber)) {
