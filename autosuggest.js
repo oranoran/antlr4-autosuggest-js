@@ -221,6 +221,7 @@ AutoSuggestionsGenerator.prototype._isParseableWithAddedToken = function (parser
 function AutoSuggester(lexerCtr, parserCtr) {
     this._lexerCtr = lexerCtr;
     this._parserCtr = parserCtr;
+    this._assertLexerHasAtn();
     return this;
 }
 
@@ -234,6 +235,14 @@ AutoSuggester.prototype.createParser = function (tokenStream) {
 };
 AutoSuggester.prototype.autosuggest = function(inputText) {
     return new AutoSuggestionsGenerator(this, inputText).suggest();
+};
+
+AutoSuggester.prototype._assertLexerHasAtn = function() {
+    var lexer = new this._lexerCtr(null);
+    if (typeof lexer.atn === 'undefined') {
+        throw "Please use ANTLR4 version 4.7.1 or above.";
+    }
+    return lexer;
 };
 
 var autosuggester = function(lexerCtr, parserCtr) {
