@@ -58,6 +58,12 @@ const r_AB_A__Q_a_Q__B__Q_b_Q__SP__Q__Q__ARRW_channel_LPAR_HIDDEN_RPAR_Lexer = r
 const r_AB_A__Q_a_Q__B__Q_b_Q__SP__Q__Q__ARRW_channel_LPAR_HIDDEN_RPAR_Parser = require('./testGrammars/r_AB_A__Q_a_Q__B__Q_b_Q__SP__Q__Q__ARRW_channel_LPAR_HIDDEN_RPAR_Parser');
 const varDecl_typeID_Q___Q_NUMBER_Q___Q__type__Q_float_Q___Q_int_Q__ID_LETTER_LPAR_LETTER__0_9__RPAR__STAR__fragmentLETTER__a_zA_Z__NUMBER_DIGIT_PLUS__fragmentDIGIT__0_9__SPACES___BS_u000B_BS_t_BS_r_BS_n__ARRW_channel_LPAR_HIDDEN_RPAR_Lexer = require('./testGrammars/varDecl_typeID_Q___Q_NUMBER_Q___Q__type__Q_float_Q___Q_int_Q__ID_LETTER_LPAR_LETTER__0_9__RPAR__STAR__fragmentLETTER__a_zA_Z__NUMBER_DIGIT_PLUS__fragmentDIGIT__0_9__SPACES___BS_u000B_BS_t_BS_r_BS_n__ARRW_channel_LPAR_HIDDEN_RPAR_Lexer');
 const varDecl_typeID_Q___Q_NUMBER_Q___Q__type__Q_float_Q___Q_int_Q__ID_LETTER_LPAR_LETTER__0_9__RPAR__STAR__fragmentLETTER__a_zA_Z__NUMBER_DIGIT_PLUS__fragmentDIGIT__0_9__SPACES___BS_u000B_BS_t_BS_r_BS_n__ARRW_channel_LPAR_HIDDEN_RPAR_Parser = require('./testGrammars/varDecl_typeID_Q___Q_NUMBER_Q___Q__type__Q_float_Q___Q_int_Q__ID_LETTER_LPAR_LETTER__0_9__RPAR__STAR__fragmentLETTER__a_zA_Z__NUMBER_DIGIT_PLUS__fragmentDIGIT__0_9__SPACES___BS_u000B_BS_t_BS_r_BS_n__ARRW_channel_LPAR_HIDDEN_RPAR_Parser');
+const a_b_aa_b__Q_B_Q_Lexer = require('./testGrammars/a_b_aa_b__Q_B_Q_Lexer');
+const a_b_aa_b__Q_B_Q_Parser = require('./testGrammars/a_b_aa_b__Q_B_Q_Parser');
+const r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Lexer = require('./testGrammars/r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Lexer');
+const r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser = require('./testGrammars/r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser');
+const r_AB_QUES_EOF_A__Q_A_Q__B__Q_B_Q_Lexer = require('./testGrammars/r_AB_QUES_EOF_A__Q_A_Q__B__Q_B_Q_Lexer');
+const r_AB_QUES_EOF_A__Q_A_Q__B__Q_B_Q_Parser = require('./testGrammars/r_AB_QUES_EOF_A__Q_A_Q__B__Q_B_Q_Parser');
 
 
 describe('Autosuggest', function () {
@@ -288,6 +294,24 @@ describe('Autosuggest', function () {
         givenGrammar(varDecl_typeID_Q___Q_NUMBER_Q___Q__type__Q_float_Q___Q_int_Q__ID_LETTER_LPAR_LETTER__0_9__RPAR__STAR__fragmentLETTER__a_zA_Z__NUMBER_DIGIT_PLUS__fragmentDIGIT__0_9__SPACES___BS_u000B_BS_t_BS_r_BS_n__ARRW_channel_LPAR_HIDDEN_RPAR_Lexer.varDecl_typeID_Q___Q_NUMBER_Q___Q__type__Q_float_Q___Q_int_Q__ID_LETTER_LPAR_LETTER__0_9__RPAR__STAR__fragmentLETTER__a_zA_Z__NUMBER_DIGIT_PLUS__fragmentDIGIT__0_9__SPACES___BS_u000B_BS_t_BS_r_BS_n__ARRW_channel_LPAR_HIDDEN_RPAR_Lexer, varDecl_typeID_Q___Q_NUMBER_Q___Q__type__Q_float_Q___Q_int_Q__ID_LETTER_LPAR_LETTER__0_9__RPAR__STAR__fragmentLETTER__a_zA_Z__NUMBER_DIGIT_PLUS__fragmentDIGIT__0_9__SPACES___BS_u000B_BS_t_BS_r_BS_n__ARRW_channel_LPAR_HIDDEN_RPAR_Parser.varDecl_typeID_Q___Q_NUMBER_Q___Q__type__Q_float_Q___Q_int_Q__ID_LETTER_LPAR_LETTER__0_9__RPAR__STAR__fragmentLETTER__a_zA_Z__NUMBER_DIGIT_PLUS__fragmentDIGIT__0_9__SPACES___BS_u000B_BS_t_BS_r_BS_n__ARRW_channel_LPAR_HIDDEN_RPAR_Parser);
         whenInput('int a');
         thenExpect(["="]);
+    });
+
+    it('should handle grammar "a: b | a a; b: \'B\';" with input "B"', function () {
+        givenGrammar(a_b_aa_b__Q_B_Q_Lexer.a_b_aa_b__Q_B_Q_Lexer, a_b_aa_b__Q_B_Q_Parser.a_b_aa_b__Q_B_Q_Parser);
+        whenInput('B');
+        thenExpect(["B"]);
+    });
+
+    it('should handle grammar "r: AB; AB: A B; fragment A: \'A\' | \'a\'; fragment B: \'B\' | \'b\';" with input ""', function () {
+        givenGrammar(r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Lexer.r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Lexer, r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser.r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser);
+        whenInput('');
+        thenExpect(["ab", "AB", "aB", "Ab"]);
+    });
+
+    it('should handle grammar "r: A B? EOF; A: \'A\'; B: \'B\';" with input "A"', function () {
+        givenGrammar(r_AB_QUES_EOF_A__Q_A_Q__B__Q_B_Q_Lexer.r_AB_QUES_EOF_A__Q_A_Q__B__Q_B_Q_Lexer, r_AB_QUES_EOF_A__Q_A_Q__B__Q_B_Q_Parser.r_AB_QUES_EOF_A__Q_A_Q__B__Q_B_Q_Parser);
+        whenInput('A');
+        thenExpect(["B"]);
     });
 
 });

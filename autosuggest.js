@@ -137,24 +137,38 @@ AutoSuggestionsGenerator.prototype._handleSetTransition = function (trans, token
 };
 
 AutoSuggestionsGenerator.prototype._suggestNextTokensForParserState = function (parserState) {
-    var transitionLabels = [];
-    this._fillParserTransitionLabels(parserState, transitionLabels);
+    var transitionLabels = new Set();
+    this._fillParserTransitionLabels(parserState, transitionLabels, new Set());
     var tokenSuggester = new TokenSuggester.TokenSuggester(this._createDefaultLexer());
     var suggestions = tokenSuggester.suggest(transitionLabels, this._untokenizedText);
     this._parseSuggestionsAndAddValidOnes(parserState, suggestions);
     // logger.debug(indent + 'WILL SUGGEST TOKENS FOR STATE: ' + parserState);
 };
 
-AutoSuggestionsGenerator.prototype._fillParserTransitionLabels = function (parserState, result) {
+var toTransKey = function (src, trans) {
+    return '' + src.stateNumber + '->(' + trans.serializationType + ') ' + trans.target.stateNumber;
+};
+
+AutoSuggestionsGenerator.prototype._fillParserTransitionLabels = function (parserState, result, visitedTransitions) {
     parserState.transitions.forEach((trans) => {
+        var transKey = toTransKey(parserState, trans);
+        if (visitedTransitions.has(transKey)) {
+            debug(this._indent + 'Not following visited ' + transKey);
+            return;
+        }
         if (trans.isEpsilon) {
-            this._fillParserTransitionLabels(trans.target, result);
+            visitedTransitions.add(transKey);
+            try {
+                this._fillParserTransitionLabels(trans.target, result, visitedTransitions);
+            } finally {
+                visitedTransitions.delete(transKey);
+            }
         } else if (trans.serializationType === constants.ATOM_TRANSITION) {
-            result.push(trans.label_);
+            result.add(trans.label_);
         } else if (trans.serializationType === constants.SET_TRANSITION) {
             trans.label.intervals.forEach((interval) => {
                 for (var i = interval.start; i < interval.stop; ++i) {
-                    result.push(i);
+                    result.add(i);
                 }
             });
         }
@@ -164,7 +178,7 @@ AutoSuggestionsGenerator.prototype._fillParserTransitionLabels = function (parse
 AutoSuggestionsGenerator.prototype._parseSuggestionsAndAddValidOnes = function (parserState, suggestions) {
     suggestions.forEach((suggestion) => {
         var addedToken = this._getAddedToken(suggestion);
-        if (this._isParseableWithAddedToken(parserState, addedToken)) {
+        if (this._isParseableWithAddedToken(parserState, addedToken, new Set())) {
 
             if (!this._collectedSuggestions.includes(suggestion)) {
                 this._collectedSuggestions.push(suggestion);
@@ -187,15 +201,25 @@ AutoSuggestionsGenerator.prototype._getAddedToken = function (suggestedCompletio
     return newToken;
 };
 
-AutoSuggestionsGenerator.prototype._isParseableWithAddedToken = function (parserState, newToken) {
+AutoSuggestionsGenerator.prototype._isParseableWithAddedToken = function (parserState, newToken, visitedTransitions) {
     if (newToken == null) {
         return false;
     }
     var parseable = false;
     parserState.transitions.forEach((parserTransition) => {
         if (parserTransition.isEpsilon) { // Recurse through any epsilon transitions
-            if (this._isParseableWithAddedToken(parserTransition.target, newToken)) {
-                parseable = true;
+            var transKey = toTransKey(parserState, parserTransition);
+            if (visitedTransitions.has(transKey)) {
+                debug(this._indent + 'Not following visited ' + transKey);
+                return;
+            }
+            visitedTransitions.add(transKey);
+            try {
+                if (this._isParseableWithAddedToken(parserTransition.target, newToken, visitedTransitions)) {
+                    parseable = true;
+                }
+            } finally {
+                visitedTransitions.delete(transKey);
             }
         } else if (parserTransition.serializationType === constants.ATOM_TRANSITION) {
             var transitionTokenType = parserTransition.label;

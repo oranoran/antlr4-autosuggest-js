@@ -1,7 +1,7 @@
 // jshint ignore: start
 var antlr4 = require('antlr4/index');
-var r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Listener = require('./r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Listener').r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Listener;
-var grammarFileName = "r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_.g4";
+var r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Listener = require('./r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Listener').r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Listener;
+var grammarFileName = "r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_.g4";
 
 var serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964",
     "\u0003\u0003\u0007\u0004\u0002\t\u0002\u0003\u0002\u0003\u0002\u0003",
@@ -18,11 +18,11 @@ var sharedContextCache = new antlr4.PredictionContextCache();
 
 var literalNames = [  ];
 
-var symbolicNames = [ null, "A" ];
+var symbolicNames = [ null, "AB" ];
 
 var ruleNames =  [ "r" ];
 
-function r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser (input) {
+function r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser (input) {
 	antlr4.Parser.call(this, input);
     this._interp = new antlr4.atn.ParserATNSimulator(this, atn, decisionsToDFA, sharedContextCache);
     this.ruleNames = ruleNames;
@@ -31,19 +31,19 @@ function r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser (input) {
     return this;
 }
 
-r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser.prototype = Object.create(antlr4.Parser.prototype);
-r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser.prototype.constructor = r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser;
+r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser.prototype = Object.create(antlr4.Parser.prototype);
+r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser.prototype.constructor = r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser;
 
-Object.defineProperty(r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser.prototype, "atn", {
+Object.defineProperty(r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser.prototype, "atn", {
 	get : function() {
 		return atn;
 	}
 });
 
-r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser.EOF = antlr4.Token.EOF;
-r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser.A = 1;
+r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser.EOF = antlr4.Token.EOF;
+r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser.AB = 1;
 
-r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser.RULE_r = 0;
+r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser.RULE_r = 0;
 
 function RContext(parser, parent, invokingState) {
 	if(parent===undefined) {
@@ -54,25 +54,25 @@ function RContext(parser, parent, invokingState) {
 	}
 	antlr4.ParserRuleContext.call(this, parent, invokingState);
     this.parser = parser;
-    this.ruleIndex = r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser.RULE_r;
+    this.ruleIndex = r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser.RULE_r;
     return this;
 }
 
 RContext.prototype = Object.create(antlr4.ParserRuleContext.prototype);
 RContext.prototype.constructor = RContext;
 
-RContext.prototype.A = function() {
-    return this.getToken(r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser.A, 0);
+RContext.prototype.AB = function() {
+    return this.getToken(r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser.AB, 0);
 };
 
 RContext.prototype.enterRule = function(listener) {
-    if(listener instanceof r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Listener ) {
+    if(listener instanceof r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Listener ) {
         listener.enterR(this);
 	}
 };
 
 RContext.prototype.exitRule = function(listener) {
-    if(listener instanceof r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Listener ) {
+    if(listener instanceof r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Listener ) {
         listener.exitR(this);
 	}
 };
@@ -80,16 +80,16 @@ RContext.prototype.exitRule = function(listener) {
 
 
 
-r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser.RContext = RContext;
+r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser.RContext = RContext;
 
-r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser.prototype.r = function() {
+r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser.prototype.r = function() {
 
     var localctx = new RContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 0, r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser.RULE_r);
+    this.enterRule(localctx, 0, r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser.RULE_r);
     try {
         this.enterOuterAlt(localctx, 1);
         this.state = 2;
-        this.match(r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser.A);
+        this.match(r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser.AB);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
 	        localctx.exception = re;
@@ -105,4 +105,4 @@ r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser.prototype.r = function() {
 };
 
 
-exports.r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser = r_A_A__Q_A_Q__Q_B_Q__STAR__Q_C_Q_Parser;
+exports.r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser = r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser;

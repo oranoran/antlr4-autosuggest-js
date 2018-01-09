@@ -1,4 +1,3 @@
-// Generated from /tmp/tmpnuIsIn/r_AB_A__Q_a_Q__B__Q_b_Q__SP__Q__Q__ARRW_skip.g4 by ANTLR 4.7
 // jshint ignore: start
 var antlr4 = require('antlr4/index');
 

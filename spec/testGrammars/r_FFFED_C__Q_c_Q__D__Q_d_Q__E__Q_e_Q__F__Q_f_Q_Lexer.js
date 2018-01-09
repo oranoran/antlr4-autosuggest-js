@@ -1,4 +1,3 @@
-// Generated from /tmp/tmpnuIsIn/r_FFFED_C__Q_c_Q__D__Q_d_Q__E__Q_e_Q__F__Q_f_Q_.g4 by ANTLR 4.7
 // jshint ignore: start
 var antlr4 = require('antlr4/index');
 

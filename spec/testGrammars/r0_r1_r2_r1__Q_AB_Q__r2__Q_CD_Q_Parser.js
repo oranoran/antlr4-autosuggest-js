@@ -1,4 +1,3 @@
-// Generated from /tmp/tmpnuIsIn/r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q_.g4 by ANTLR 4.7
 // jshint ignore: start
 var antlr4 = require('antlr4/index');
 var r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q_Listener = require('./r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q_Listener').r0_r1_r2_r1__Q_AB_Q__r2__Q_CD_Q_Listener;
