@@ -67,13 +67,20 @@ const r_AB_QUES_EOF_A__Q_A_Q__B__Q_B_Q_Parser = require('./testGrammars/r_AB_QUE
 
 
 describe('Autosuggest', function () {
-    let suggester;
     let completions;
+    let storedLexerCtr;
+    let storedParserCtr;
+    let storedCasePreference;
 
     const givenGrammar = function (lexerCtr, parserCtr) {
-        suggester = autosuggest.autosuggester(lexerCtr, parserCtr);
+        storedLexerCtr = lexerCtr;
+        storedParserCtr = parserCtr;
+    };
+    const withCasePreference = function(casePreference) {
+        storedCasePreference = casePreference;
     };
     const whenInput = function (input) {
+        let suggester = autosuggest.autosuggester(storedLexerCtr, storedParserCtr, storedCasePreference);
         completions = suggester.autosuggest(input);
     };
     const thenExpect = function (expectedSuggestions) {
@@ -306,6 +313,34 @@ describe('Autosuggest', function () {
         givenGrammar(r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Lexer.r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Lexer, r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser.r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser);
         whenInput('');
         thenExpect(["ab", "AB", "aB", "Ab"]);
+    });
+
+    it('should handle grammar "r: AB; AB: A B; fragment A: \'A\' | \'a\'; fragment B: \'B\' | \'b\';" with input ""', function () {
+        givenGrammar(r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Lexer.r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Lexer, r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser.r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser);
+        withCasePreference(null);
+        whenInput('');
+        thenExpect(["ab", "AB", "aB", "Ab"]);
+    });
+
+    it('should handle grammar "r: AB; AB: A B; fragment A: \'A\' | \'a\'; fragment B: \'B\' | \'b\';" with input ""', function () {
+        givenGrammar(r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Lexer.r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Lexer, r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser.r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser);
+        withCasePreference('BOTH');
+        whenInput('');
+        thenExpect(["ab", "AB", "aB", "Ab"]);
+    });
+
+    it('should handle grammar "r: AB; AB: A B; fragment A: \'A\' | \'a\'; fragment B: \'B\' | \'b\';" with input ""', function () {
+        givenGrammar(r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Lexer.r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Lexer, r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser.r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser);
+        withCasePreference('UPPER');
+        whenInput('');
+        thenExpect(["AB"]);
+    });
+
+    it('should handle grammar "r: AB; AB: A B; fragment A: \'A\' | \'a\'; fragment B: \'B\' | \'b\';" with input ""', function () {
+        givenGrammar(r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Lexer.r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Lexer, r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser.r_AB_AB_AB_fragmentA__Q_A_Q___Q_a_Q__fragmentB__Q_B_Q___Q_b_Q_Parser);
+        withCasePreference('LOWER');
+        whenInput('');
+        thenExpect(["ab"]);
     });
 
     it('should handle grammar "r: A B? EOF; A: \'A\'; B: \'B\';" with input "A"', function () {

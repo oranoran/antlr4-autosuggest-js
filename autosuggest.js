@@ -13,6 +13,7 @@ function AutoSuggestionsGenerator(lexerAndParserFactory, input) {
     this._parserRuleNames = [];
     this._indent = '';
     this._collectedSuggestions = [];
+    this._casePreference = 'BOTH';
     return this;
 }
 
@@ -27,6 +28,10 @@ AutoSuggestionsGenerator.prototype.suggest = function () {
     this._storeParserAtnAndRuleNames();
     this._runParserAtnAndCollectSuggestions();
     return this._collectedSuggestions;
+};
+
+AutoSuggestionsGenerator.prototype.setCasePreference = function(casePreference) {
+    this._casePreference = casePreference;
 };
 
 AutoSuggestionsGenerator.prototype._tokenizeInput = function () {
@@ -139,7 +144,7 @@ AutoSuggestionsGenerator.prototype._handleSetTransition = function (trans, token
 AutoSuggestionsGenerator.prototype._suggestNextTokensForParserState = function (parserState) {
     var transitionLabels = new Set();
     this._fillParserTransitionLabels(parserState, transitionLabels, new Set());
-    var tokenSuggester = new TokenSuggester.TokenSuggester(this._createDefaultLexer());
+    var tokenSuggester = new TokenSuggester.TokenSuggester(this._createDefaultLexer(), this._casePreference);
     var suggestions = tokenSuggester.suggest(transitionLabels, this._untokenizedText);
     this._parseSuggestionsAndAddValidOnes(parserState, suggestions);
     // logger.debug(indent + 'WILL SUGGEST TOKENS FOR STATE: ' + parserState);
@@ -242,9 +247,10 @@ AutoSuggestionsGenerator.prototype._isParseableWithAddedToken = function (parser
 };
 
 
-function AutoSuggester(lexerCtr, parserCtr) {
+function AutoSuggester(lexerCtr, parserCtr, casePreference=null) {
     this._lexerCtr = lexerCtr;
     this._parserCtr = parserCtr;
+    this._casePreference = casePreference;
     this._assertLexerHasAtn();
     return this;
 }
@@ -258,7 +264,12 @@ AutoSuggester.prototype.createParser = function (tokenStream) {
     return new this._parserCtr(tokenStream);
 };
 AutoSuggester.prototype.autosuggest = function(inputText) {
-    return new AutoSuggestionsGenerator(this, inputText).suggest();
+    var generator =  new AutoSuggestionsGenerator(this, inputText);
+    debug("CASE_PREF : " + this._casePreference);
+    if (this._casePreference) {
+        generator.setCasePreference(this._casePreference);
+    }
+    return generator.suggest();
 };
 
 AutoSuggester.prototype._assertLexerHasAtn = function() {
@@ -269,8 +280,8 @@ AutoSuggester.prototype._assertLexerHasAtn = function() {
     return lexer;
 };
 
-var autosuggester = function(lexerCtr, parserCtr) {
-    return new AutoSuggester(lexerCtr, parserCtr);
+var autosuggester = function(lexerCtr, parserCtr, casePref=null) {
+    return new AutoSuggester(lexerCtr, parserCtr, casePref);
 };
 
 module.exports.autosuggester = autosuggester;

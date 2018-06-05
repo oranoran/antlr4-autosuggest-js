@@ -2,11 +2,12 @@
 var debug = require('debug')('tokensuggester');
 var constants = require('./antlr4Constants');
 
-function TokenSuggester(lexer) {
+function TokenSuggester(lexer, casePreference=null) {
     this._lexer = lexer;
     this._suggestions = [];
     this._visitedLexerStates = [];
     this._origPartialToken = '';
+    this._casePreference = casePreference;
     return this;
 }
 
@@ -47,6 +48,16 @@ TokenSuggester.prototype._suggest = function (tokenSoFar, lexerState, remainingT
     }
 };
 
+var _calcAllLabelChars = function(label) {
+    var allLabelChars = [];
+    for (var interval of label.intervals) {
+        for (var codePoint = interval.start; codePoint < interval.stop; ++codePoint) {
+            allLabelChars.push(String.fromCharCode(codePoint));
+        }
+    }
+    return allLabelChars;
+} ;
+
 TokenSuggester.prototype._suggestViaLexerTransition = function (tokenSoFar, remainingText, trans) {
     if (trans.isEpsilon) {
         this._suggest(tokenSoFar, trans.target, remainingText);
@@ -59,10 +70,13 @@ TokenSuggester.prototype._suggestViaLexerTransition = function (tokenSoFar, rema
             debug("NONMATCHING LEXER TOKEN: " + newTokenChar + " remaining=" + remainingText);
         }
     } else if (trans.serializationType === constants.SET_TRANSITION) {
+        var allLabelChars = _calcAllLabelChars(trans.label);
         trans.label.intervals.forEach((interval) => {
             for (var codePoint = interval.start; codePoint <= interval.stop; ++codePoint) {
+                var ch = String.fromCodePoint(codePoint);
+                var shouldIgnoreCase = this._shouldIgnoreThisCase(ch, allLabelChars);
                 var newTokenChar = String.fromCodePoint(codePoint);
-                if (remainingText === '' || remainingText.startsWith(newTokenChar)) {
+                if (!shouldIgnoreCase && (remainingText === '' || remainingText.startsWith(newTokenChar))) {
                     this._suggestViaNonEpsilonLexerTransition(tokenSoFar, remainingText, newTokenChar, trans.target);
                 }
             }
@@ -91,4 +105,21 @@ TokenSuggester.prototype._chopOffCommonStart = function (a, b) {
 TokenSuggester.prototype._getAddedTextFor = function (transition) {
     return String.fromCodePoint(transition.label);
 };
+
+TokenSuggester.prototype._shouldIgnoreThisCase = function (transChar, allTransChars) {
+    if (this._casePreference == null || this._casePreference === 'BOTH') {
+        return false;
+    }
+    var upper = transChar.toUpperCase();
+    var lower = transChar.toLowerCase();
+    switch(this._casePreference) {
+    case 'LOWER':
+        return transChar===upper && allTransChars.includes(lower);
+    case 'UPPER':
+        return transChar===lower && allTransChars.includes(upper);
+    default:
+        return false;
+    }
+}
+
 exports.TokenSuggester = TokenSuggester;
