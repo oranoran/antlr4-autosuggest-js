@@ -56,7 +56,7 @@ var _calcAllLabelChars = function(label) {
         }
     }
     return allLabelChars;
-} ;
+};
 
 TokenSuggester.prototype._suggestViaLexerTransition = function (tokenSoFar, remainingText, trans) {
     if (trans.isEpsilon) {
@@ -120,6 +120,6 @@ TokenSuggester.prototype._shouldIgnoreThisCase = function (transChar, allTransCh
     default:
         return false;
     }
-}
+};
 
 exports.TokenSuggester = TokenSuggester;
