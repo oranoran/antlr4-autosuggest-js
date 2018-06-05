@@ -112,7 +112,7 @@ AutoSuggestionsGenerator.prototype._parseAndCollectTokenSuggestions = function (
             } else {
                 this._handleSetTransition(trans, tokenListIndex);
             }
-        };
+        }
     } finally {
         this._indent = prevIndent;
         this._setParserStateLastVisitedOnThisTokenIndex(parserState, previousTokenListIndexForThisState);

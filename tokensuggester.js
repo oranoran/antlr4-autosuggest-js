@@ -20,7 +20,7 @@ TokenSuggester.prototype.suggest = function (nextParserTransitionLabels, remaini
         const nextTokenRuleNumber = nextParserTransitionLabel - 1; // Count from 0 not from 1
         const lexerState = this._findLexerStateByRuleNumber(nextTokenRuleNumber);
         this._suggest('', lexerState, remainingText);
-    };
+    }
     return this._suggestions;
 };
 
