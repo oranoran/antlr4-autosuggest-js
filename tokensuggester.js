@@ -72,7 +72,7 @@ TokenSuggester.prototype._suggestViaLexerTransition = function (tokenSoFar, rema
     } else if (trans.serializationType === constants.SET_TRANSITION) {
         const allLabelChars = _calcAllLabelChars(trans.label);
         for (let interval of trans.label.intervals) {
-            for (let codePoint = interval.start; codePoint <= interval.stop; ++codePoint) {
+            for (let codePoint = interval.start; codePoint < interval.stop; ++codePoint) {
                 const ch = String.fromCodePoint(codePoint);
                 const shouldIgnoreCase = this._shouldIgnoreThisCase(ch, allLabelChars);
                 const newTokenChar = String.fromCodePoint(codePoint);
