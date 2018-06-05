@@ -1,6 +1,6 @@
 'use strict';
-var debug = require('debug')('tokensuggester');
-var constants = require('./antlr4Constants');
+const debug = require('debug')('tokensuggester');
+const constants = require('./antlr4Constants');
 
 function TokenSuggester(lexer, casePreference=null) {
     this._lexer = lexer;
@@ -16,11 +16,11 @@ TokenSuggester.prototype.constructor = TokenSuggester;
 TokenSuggester.prototype.suggest = function (nextParserTransitionLabels, remainingText) {
     debug("Suggesting tokens for rule numbers: " + nextParserTransitionLabels);
     this._origPartialToken = remainingText;
-    nextParserTransitionLabels.forEach(nextParserTransitionLabel => {
-        var nextTokenRuleNumber = nextParserTransitionLabel - 1; // Count from 0 not from 1
-        var lexerState = this._findLexerStateByRuleNumber(nextTokenRuleNumber);
+    for (let nextParserTransitionLabel of nextParserTransitionLabels) {
+        const nextTokenRuleNumber = nextParserTransitionLabel - 1; // Count from 0 not from 1
+        const lexerState = this._findLexerStateByRuleNumber(nextTokenRuleNumber);
         this._suggest('', lexerState, remainingText);
-    });
+    };
     return this._suggestions;
 };
 
@@ -35,23 +35,23 @@ TokenSuggester.prototype._suggest = function (tokenSoFar, lexerState, remainingT
     }
     this._visitedLexerStates.push(lexerState.stateNumber);
     try {
-        var tokenNotEmpty = (tokenSoFar.length > 0);
-        var noMoreCharactersInToken = (lexerState.transitions.length === 0);
+        const tokenNotEmpty = (tokenSoFar.length > 0);
+        const noMoreCharactersInToken = (lexerState.transitions.length === 0);
         if (tokenNotEmpty && noMoreCharactersInToken) {
             this._addSuggestedToken(tokenSoFar);
         }
-        lexerState.transitions.forEach((trans) => {
+        for (let trans of lexerState.transitions) {
             this._suggestViaLexerTransition(tokenSoFar, remainingText, trans);
-        });
+        }
     } finally {
         this._visitedLexerStates.pop();
     }
 };
 
-var _calcAllLabelChars = function(label) {
-    var allLabelChars = [];
-    for (var interval of label.intervals) {
-        for (var codePoint = interval.start; codePoint < interval.stop; ++codePoint) {
+const _calcAllLabelChars = function(label) {
+    const allLabelChars = [];
+    for (let interval of label.intervals) {
+        for (let codePoint = interval.start; codePoint < interval.stop; ++codePoint) {
             allLabelChars.push(String.fromCharCode(codePoint));
         }
     }
@@ -62,7 +62,7 @@ TokenSuggester.prototype._suggestViaLexerTransition = function (tokenSoFar, rema
     if (trans.isEpsilon) {
         this._suggest(tokenSoFar, trans.target, remainingText);
     } else if (trans.serializationType === constants.ATOM_TRANSITION) {
-        var newTokenChar = this._getAddedTextFor(trans);
+        const newTokenChar = this._getAddedTextFor(trans);
         if (remainingText === '' || remainingText.startsWith(newTokenChar)) {
             debug("LEXER TOKEN: " + newTokenChar + " remaining=" + remainingText);
             this._suggestViaNonEpsilonLexerTransition(tokenSoFar, remainingText, newTokenChar, trans.target);
@@ -70,27 +70,27 @@ TokenSuggester.prototype._suggestViaLexerTransition = function (tokenSoFar, rema
             debug("NONMATCHING LEXER TOKEN: " + newTokenChar + " remaining=" + remainingText);
         }
     } else if (trans.serializationType === constants.SET_TRANSITION) {
-        var allLabelChars = _calcAllLabelChars(trans.label);
-        trans.label.intervals.forEach((interval) => {
-            for (var codePoint = interval.start; codePoint <= interval.stop; ++codePoint) {
-                var ch = String.fromCodePoint(codePoint);
-                var shouldIgnoreCase = this._shouldIgnoreThisCase(ch, allLabelChars);
-                var newTokenChar = String.fromCodePoint(codePoint);
+        const allLabelChars = _calcAllLabelChars(trans.label);
+        for (let interval of trans.label.intervals) {
+            for (let codePoint = interval.start; codePoint <= interval.stop; ++codePoint) {
+                const ch = String.fromCodePoint(codePoint);
+                const shouldIgnoreCase = this._shouldIgnoreThisCase(ch, allLabelChars);
+                const newTokenChar = String.fromCodePoint(codePoint);
                 if (!shouldIgnoreCase && (remainingText === '' || remainingText.startsWith(newTokenChar))) {
                     this._suggestViaNonEpsilonLexerTransition(tokenSoFar, remainingText, newTokenChar, trans.target);
                 }
             }
-        });
+        }
     }
 };
 
 TokenSuggester.prototype._suggestViaNonEpsilonLexerTransition = function (tokenSoFar, remainingText, newTokenChar, targetState) {
-    var newRemainingText = (remainingText.length > 0) ? remainingText.substr(1) : '';
+    const newRemainingText = (remainingText.length > 0) ? remainingText.substr(1) : '';
     this._suggest(tokenSoFar + newTokenChar, targetState, newRemainingText);
 };
 
 TokenSuggester.prototype._addSuggestedToken = function (tokenToAdd) {
-    var justTheCompletionPart = this._chopOffCommonStart(tokenToAdd, this._origPartialToken);
+    const justTheCompletionPart = this._chopOffCommonStart(tokenToAdd, this._origPartialToken);
     if (!this._suggestions.includes(justTheCompletionPart)) {
         debug("SUGGESTIONG: " + justTheCompletionPart);
         this._suggestions.push(justTheCompletionPart);
@@ -98,7 +98,7 @@ TokenSuggester.prototype._addSuggestedToken = function (tokenToAdd) {
 };
 
 TokenSuggester.prototype._chopOffCommonStart = function (a, b) {
-    var charsToChopOff = Math.min(a.length, b.length);
+    const charsToChopOff = Math.min(a.length, b.length);
     return a.substr(charsToChopOff, a.length - charsToChopOff);
 };
 
@@ -110,8 +110,8 @@ TokenSuggester.prototype._shouldIgnoreThisCase = function (transChar, allTransCh
     if (this._casePreference == null || this._casePreference === 'BOTH') {
         return false;
     }
-    var upper = transChar.toUpperCase();
-    var lower = transChar.toLowerCase();
+    const upper = transChar.toUpperCase();
+    const lower = transChar.toLowerCase();
     switch(this._casePreference) {
     case 'LOWER':
         return transChar===upper && allTransChars.includes(lower);
