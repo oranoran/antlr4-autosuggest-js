@@ -201,9 +201,9 @@ AutoSuggestionsGenerator.prototype._fillParserTransitionLabels = function (parse
                 for (let i = interval.start; i < interval.stop; ++i) {
                     result.add(i);
                 }
-            };
+            }
         }
-    };
+    }
 };
 
 AutoSuggestionsGenerator.prototype._parseSuggestionsAndAddValidOnes = function (parserState, suggestions) {
@@ -217,7 +217,7 @@ AutoSuggestionsGenerator.prototype._parseSuggestionsAndAddValidOnes = function (
         } else {
             debug('DROPPING non-parseable suggestion: ' + suggestion);
         }
-    };
+    }
 };
 
 AutoSuggestionsGenerator.prototype._getAddedToken = function (suggestedCompletion) {
@@ -264,11 +264,11 @@ AutoSuggestionsGenerator.prototype._isParseableWithAddedToken = function (parser
                         parseable = true;
                     }
                 }
-            };
+            }
         } else {
             throw 'Unexpected: ' + transToStr(parserTransition);
         }
-    };
+    }
     return parseable;
 };
 
