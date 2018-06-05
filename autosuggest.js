@@ -164,7 +164,7 @@ AutoSuggestionsGenerator.prototype._handleSetTransition = function (trans, token
                 debug(this._indent + 'Token ' + nextToken + ' NOT following transition: ' + transToStr(trans) + ' to ' + transitionTokenType);
             }
         }
-    };
+    }
 };
 
 AutoSuggestionsGenerator.prototype._suggestNextTokensForParserState = function (parserState) {
