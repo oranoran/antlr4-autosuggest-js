@@ -14,6 +14,8 @@ function AutoSuggestionsGenerator(lexerAndParserFactory, input) {
     this._indent = '';
     this._collectedSuggestions = [];
     this._casePreference = 'BOTH';
+    this._parserStateToTokenListIndexWhereLastVisited = new Map();
+
     return this;
 }
 
@@ -86,6 +88,12 @@ AutoSuggestionsGenerator.prototype._runParserAtnAndCollectSuggestions = function
 AutoSuggestionsGenerator.prototype._parseAndCollectTokenSuggestions = function (parserState, tokenListIndex) {
     var prevIndent = this._indent;
     this._indent += '  ';
+    if (this._didVisitParserStateOnThisTokenIndex(parserState, tokenListIndex)) {
+        debug(this._indent + "State " + parserState + " had already been visited while processing token " +
+                tokenListIndex + ", backtracking to avoid infinite loop.");
+        return;
+    }
+    var previousTokenListIndexForThisState = this._setParserStateLastVisitedOnThisTokenIndex(parserState, tokenListIndex);
     try {
         debug(this._indent + 'State: ' + parserState + ' (type: ' + parserState.constructor.name + ')');
         // debug(indent + 'State available transitions: ' + transitionsStr(parserState));
@@ -105,7 +113,23 @@ AutoSuggestionsGenerator.prototype._parseAndCollectTokenSuggestions = function (
         });
     } finally {
         this._indent = prevIndent;
+        this._setParserStateLastVisitedOnThisTokenIndex(parserState, previousTokenListIndexForThisState);
     }
+};
+
+AutoSuggestionsGenerator.prototype._didVisitParserStateOnThisTokenIndex = function(parserState, currentTokenListIndex) {
+    var lastVisitedThisStateAtTokenListIndex = this._parserStateToTokenListIndexWhereLastVisited.get(parserState);
+    return currentTokenListIndex === lastVisitedThisStateAtTokenListIndex;
+};
+
+AutoSuggestionsGenerator.prototype._setParserStateLastVisitedOnThisTokenIndex = function(parserState, tokenListIndex) {
+    var previous = this._parserStateToTokenListIndexWhereLastVisited.get(parserState);
+    if (typeof tokenListIndex === 'undefined') {
+        this._parserStateToTokenListIndexWhereLastVisited.delete(parserState);
+    } else {
+        this._parserStateToTokenListIndexWhereLastVisited.set(parserState, tokenListIndex);
+    }
+    return previous;
 };
 
 AutoSuggestionsGenerator.prototype._haveMoreTokens = function (index) {
