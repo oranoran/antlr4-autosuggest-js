@@ -4,6 +4,7 @@
   "description": "Autosuggest engine for ANTLR4 grammars",
   "main": "antlr4-autosuggest.js",
   "scripts": {
+    "lint": "./node_modules/jshint/bin/jshint **.js",
     "test": "DEBUG=\"*\" jasmine",
     "coverage": "nyc -x 'spec/**/*.js' jasmine",
     "codacy-coverage": "nyc -x 'spec/**/*.js' --reporter=lcov jasmine && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage && rm -rf ./coverage",

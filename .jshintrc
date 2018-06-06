@@ -1,6 +1,7 @@
 {
   "esversion": 6,
   "-W097": false,
-  "varstmt": true
+  "varstmt": true,
+  "node": true
 }
 
