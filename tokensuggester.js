@@ -13,7 +13,7 @@ function TokenSuggester(lexer) {
 TokenSuggester.prototype.constructor = TokenSuggester;
 
 TokenSuggester.prototype.suggest = function (nextParserTransitionLabels, remainingText) {
-    debug("Suggesting tokens for rule numbers: " + Array.from(nextParserTransitionLabels).join(', ')));
+    debug("Suggesting tokens for rule numbers: " + Array.from(nextParserTransitionLabels).join(', '));
     this._origPartialToken = remainingText;
     nextParserTransitionLabels.forEach(nextParserTransitionLabel => {
         var nextTokenRuleNumber = nextParserTransitionLabel - 1; // Count from 0 not from 1
