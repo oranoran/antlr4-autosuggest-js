@@ -26,15 +26,34 @@ const autosuggester = autosuggest.autosuggester(lexerModule.myGrammarLexer, pars
 let suggestions = autosuggester.autosuggest("ABC");
 ```
 
+Advanced Features
+-----------------
+
+### Case Preference
+
+Sometimes grammars support both uppercase and lowercase tokens, but completions are expected in just uppercase or lowercase. Specify an 'UPPER' or 'LOWER' case preference to limit suggestions to just uppercase or lowercase:
+
+```javascript
+const autosuggester = autosuggest.autosuggester(lexerModule.myGrammarLexer, parserModule.myGrammarParser, 'LOWER');
+```
+
+
 How It Works
 ------------
 See explanation in the [Java project](https://github.com/oranoran/antlr4-autosuggest/).
 
-Building
---------
+Building & Contributing
+-----------------------
+To get started:
 * Clone the antlr-autosuggest-js repository.
 * Install Node and NPM (tested with 8)
 * Run the command `npm test`.
+
+Code contributions are most welcome, but need to maintain a high bar of code cleanliness and test coverage. At a minimum, before submitting a pull request, please run `npm test` and `npm run-script lint` to verify that your changes didn't break anything.
+
+It's very important for grammar-related features and fixes to be covered by focused, narrow unit tests. Each unit test must include a short grammar, an even shorter input text, and an expected list of auto-complete suggestions. Unfortunately it's not really possible to write such tests directly in JavaScript, because antlr4's JavaScript engine requires test grammars to have their code generated in advance (i.e., it doesn't provide a runtime grammar interpreter).
+
+To overcome this limitation and write good tests, we actually start out by coding and testing on the [Java project](https://github.com/oranoran/antlr4-autosuggest/) first. In Java, antlr4 *does* offer an interpreter, and therefore unit tests are [pretty neat](https://github.com/oranoran/antlr4-autosuggest/blob/master/src/test/java/com/intigua/antlr4/autosuggest/AutoSuggesterTest.java)!. Once the code and tests are ready in Java, we port the tests automatically to JavaScript with code generation, using the [make_js.py](https://github.com/oranoran/antlr4-autosuggest/blob/master/make_js.py) utility. The resulting JavaScript code also looks [quite neat](https://github.com/oranoran/antlr4-autosuggest-js/blob/master/spec/generatedTestsFromJava.spec.js), and it's completely auto-generated. Once we have failing tests in JavaScript, we manually port the code changes that fix them from Java.
 
 Credits
 -------
