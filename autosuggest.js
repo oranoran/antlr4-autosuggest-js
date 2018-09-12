@@ -1,10 +1,12 @@
 'use strict';
 const antlr4 = require('antlr4');
 const TokenSuggester = require('./tokensuggester');
+const LexerWrapper = require('./lexerWrapper').LexerWrapper;
 const debug = require('debug')('autosuggest');
 const constants = require('./antlr4Constants');
 
 function AutoSuggestionsGenerator(lexerAndParserFactory, input) {
+    this._lexerWrapper = new LexerWrapper(lexerAndParserFactory);
     this._lexerAndParserFactory = lexerAndParserFactory;
     this._input = input;
     this._inputTokens = [];
@@ -37,9 +39,9 @@ AutoSuggestionsGenerator.prototype.setCasePreference = function(casePreference) 
 };
 
 AutoSuggestionsGenerator.prototype._tokenizeInput = function () {
-    const lexer = this._createLexerWithUntokenizedTextDetection();
-    const allTokens = lexer.getAllTokens(); // side effect: also fills this.untokenizedText
-    this._inputTokens = this._filterOutNonDefaultChannels(allTokens);
+    const tokenizationResult = this._lexerWrapper.tokenizeNonDefaultChannel(this._input);
+    this._inputTokens = tokenizationResult.tokens;
+    this._untokenizedText = tokenizationResult.untokenizedText;
     debug('TOKENS FOUND IN FIRST PASS:');
     for (let token of this._inputTokens) {
         debug('' + token);
@@ -51,30 +53,8 @@ AutoSuggestionsGenerator.prototype._filterOutNonDefaultChannels = function (toke
     return tokens.filter((token) => token.channel === 0);
 };
 
-AutoSuggestionsGenerator.prototype._createLexerWithUntokenizedTextDetection = function () {
-    const lexer = this._createDefaultLexer();
-    lexer.removeErrorListeners();
-    const self = this;
-    const newErrorListener = Object.create(antlr4.error.ErrorListener);
-    newErrorListener.syntaxError = function (recognizer, offendingSymbol, line, column, msg, e) {
-        self._untokenizedText = self._input.substring(column);
-    };
-    lexer.addErrorListener(newErrorListener);
-    return lexer;
-};
-
-AutoSuggestionsGenerator.prototype._createDefaultLexer = function () {
-    return this._createLexer(this._input);
-};
-
-AutoSuggestionsGenerator.prototype._createLexer = function (lexerInput) {
-    const inputStream = new antlr4.InputStream(lexerInput);
-    const lexer = this._lexerAndParserFactory.createLexer(inputStream);
-    return lexer;
-};
-
 AutoSuggestionsGenerator.prototype._storeParserAtnAndRuleNames = function () {
-    const tokenStream = new antlr4.CommonTokenStream(this._createDefaultLexer());
+    const tokenStream = this._lexerWrapper.getEmptyTokenStream();
     const parser = this._lexerAndParserFactory.createParser(tokenStream);
     debug('Parser rule names: ' + parser.ruleNames.join(', '));
     this._parserAtn = parser.atn;
@@ -170,7 +150,7 @@ AutoSuggestionsGenerator.prototype._handleSetTransition = function (trans, token
 AutoSuggestionsGenerator.prototype._suggestNextTokensForParserState = function (parserState) {
     const transitionLabels = new Set();
     this._fillParserTransitionLabels(parserState, transitionLabels, new Set());
-    const tokenSuggester = new TokenSuggester.TokenSuggester(this._createDefaultLexer(), this._casePreference);
+    const tokenSuggester = new TokenSuggester.TokenSuggester(this._untokenizedText, this._lexerWrapper, this._casePreference);
     const suggestions = tokenSuggester.suggest(transitionLabels, this._untokenizedText);
     this._parseSuggestionsAndAddValidOnes(parserState, suggestions);
     // logger.debug(indent + 'WILL SUGGEST TOKENS FOR STATE: ' + parserState);
@@ -222,9 +202,7 @@ AutoSuggestionsGenerator.prototype._parseSuggestionsAndAddValidOnes = function (
 
 AutoSuggestionsGenerator.prototype._getAddedToken = function (suggestedCompletion) {
     const completedText = this._input + suggestedCompletion;
-    const completedTextLexer = this._createLexer(completedText);
-    completedTextLexer.removeErrorListeners();
-    const completedTextTokens = this._filterOutNonDefaultChannels(completedTextLexer.getAllTokens());
+    const completedTextTokens = this._lexerWrapper.tokenizeNonDefaultChannel(completedText).tokens;
     if (completedTextTokens.length <= this._inputTokens.length) {
         return null; // Completion didn't yield whole token, could be just a token fragment
     }

@@ -2,30 +2,25 @@
 const debug = require('debug')('tokensuggester');
 const constants = require('./antlr4Constants');
 
-function TokenSuggester(lexer, casePreference=null) {
-    this._lexer = lexer;
+function TokenSuggester(origPartialToken, lexerWrapper, casePreference=null) {
+    this._origPartialToken = origPartialToken;
+    this._lexerWrapper = lexerWrapper;
     this._suggestions = [];
     this._visitedLexerStates = [];
-    this._origPartialToken = '';
     this._casePreference = casePreference;
     return this;
 }
 
 TokenSuggester.prototype.constructor = TokenSuggester;
 
-TokenSuggester.prototype.suggest = function (nextParserTransitionLabels, remainingText) {
+TokenSuggester.prototype.suggest = function (nextParserTransitionLabels) {
     debug("Suggesting tokens for rule numbers: " + Array.from(nextParserTransitionLabels).join(', '));
-    this._origPartialToken = remainingText;
     for (let nextParserTransitionLabel of nextParserTransitionLabels) {
         const nextTokenRuleNumber = nextParserTransitionLabel - 1; // Count from 0 not from 1
-        const lexerState = this._findLexerStateByRuleNumber(nextTokenRuleNumber);
-        this._suggest('', lexerState, remainingText);
+        const lexerState = this._lexerWrapper.findStateByRuleNumber(nextTokenRuleNumber);
+        this._suggest('', lexerState, this._origPartialToken);
     }
     return this._suggestions;
-};
-
-TokenSuggester.prototype._findLexerStateByRuleNumber = function (ruleNumber) {
-    return this._lexer.atn.ruleToStartState.slice(ruleNumber, ruleNumber + 1)[0];
 };
 
 TokenSuggester.prototype._suggest = function (tokenSoFar, lexerState, remainingText) {
@@ -92,7 +87,7 @@ TokenSuggester.prototype._suggestViaNonEpsilonLexerTransition = function (tokenS
 TokenSuggester.prototype._addSuggestedToken = function (tokenToAdd) {
     const justTheCompletionPart = this._chopOffCommonStart(tokenToAdd, this._origPartialToken);
     if (!this._suggestions.includes(justTheCompletionPart)) {
-        debug("SUGGESTIONG: " + justTheCompletionPart);
+        debug("SUGGESTING: " + justTheCompletionPart);
         this._suggestions.push(justTheCompletionPart);
     }
 };
