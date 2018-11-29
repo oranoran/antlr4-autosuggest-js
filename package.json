@@ -5,7 +5,7 @@
   "main": "antlr4-autosuggest.js",
   "scripts": {
     "lint": "./node_modules/jshint/bin/jshint **.js",
-    "test": "DEBUG=\"*\" jasmine",
+    "test": "cross-env DEBUG=\"*\" jasmine",
     "coverage": "nyc -x 'spec/**/*.js' jasmine",
     "codacy-coverage": "nyc -x 'spec/**/*.js' --reporter=lcov jasmine && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage && rm -rf ./coverage",
     "build": "webpack && cp README.md LICENSE package.json dist/"
@@ -34,6 +34,7 @@
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
     "codacy-coverage": "^2.0.3",
+    "cross-env": "5.2.0",
     "eslint": "^4.12.1",
     "jasmine": "^2.8.0",
     "jshint": "^2.9.5",
